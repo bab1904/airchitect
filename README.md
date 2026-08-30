@@ -1,5 +1,7 @@
 # AIrchitect
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fbab1904%2Fairchitect)
+
 An AI-powered architectural project management and collaboration platform designed to streamline construction workflows, enhance team coordination, and optimize project planning.
 
 ## Features

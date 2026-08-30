@@ -1,6 +1,6 @@
 import React from 'react';
 import { ViewState, UserRole, Project } from '../types';
-import { LayoutDashboard, PenTool, Calculator, HardHat, Package, Menu, LogOut, MessageSquare, Grid, Users, FileText, ShieldCheck, CalendarDays, BookOpen, Zap } from 'lucide-react';
+import { LayoutDashboard, PenTool, Calculator, HardHat, Package, Menu, LogOut, MessageSquare, Grid, Users, FileText, ShieldCheck, CalendarDays, BookOpen, Zap, Activity } from 'lucide-react';
 import TeamChatWidget from './TeamChatWidget';
 
 interface LayoutProps {
@@ -58,6 +58,7 @@ const Layout: React.FC<LayoutProps> = ({
         return [
             ...items,
             { id: ViewState.SCHEDULE, label: 'AI Auto-Schedule', icon: CalendarDays },
+            { id: ViewState.SCHEDULE_UPDATER, label: 'L5/L6 Schedule Sync', icon: Activity },
             { id: ViewState.CODE_COMPLIANCE, label: 'Code Checker', icon: BookOpen },
             { id: ViewState.WORKFORCE, label: 'Workforce Log', icon: HardHat },
             { id: ViewState.MATERIALS, label: 'Inventory', icon: Package },
@@ -72,6 +73,7 @@ const Layout: React.FC<LayoutProps> = ({
     return [
         ...items,
         { id: ViewState.SCHEDULE, label: 'AI Auto-Schedule', icon: CalendarDays },
+        { id: ViewState.SCHEDULE_UPDATER, label: 'L5/L6 Schedule Sync', icon: Activity },
         { id: ViewState.CODE_COMPLIANCE, label: 'Code Checker', icon: BookOpen },
         { id: ViewState.BOQ_OPTIMIZER, label: 'Smart Optimizer', icon: Zap },
         { id: ViewState.WORKFORCE, label: 'Workforce Log', icon: HardHat },

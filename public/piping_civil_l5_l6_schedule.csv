@@ -1,0 +1,21 @@
+Activity ID,Name,Planned Start,Planned Finish,Discipline,WBS Level,Duration (Days)
+CIV-L5-1010,Trench Excavation & Soil Profiling for 24" Header,2026-09-01,2026-09-04,Civil,L5,4
+CIV-L6-1011,Mud Mat / Blinding Concrete Pour (PCC 1:4:8),2026-09-05,2026-09-06,Civil,L6,2
+CIV-L6-1012,Rebar Cage Fabrication & Placement for Foundation F-101,2026-09-07,2026-09-10,Civil,L6,4
+CIV-L6-1013,Anchor Bolt Cluster Alignment & Template Setting,2026-09-11,2026-09-12,Civil,L6,2
+CIV-L6-1014,Pedestal Formwork Erection & Level Survey,2026-09-13,2026-09-15,Civil,L6,3
+CIV-L5-1015,Structural Concrete Pour (Grade M30) & Compaction,2026-09-16,2026-09-16,Civil,L5,1
+CIV-L6-1016,Curing & Formwork Stripping (Pedestals P-01 to P-04),2026-09-17,2026-09-24,Civil,L6,8
+CIV-L5-1017,Sub-grade Bituminous Waterproofing & Compaction Backfill,2026-09-25,2026-09-28,Civil,L5,4
+PIP-L5-2010,Spool Receipt & Dimensional QA Inspection (Spools SP-01 to 08),2026-09-22,2026-09-24,Piping,L5,3
+PIP-L6-2011,Pipe Edge Beveling & Joint Fit-up (Header CS-24"-A1A),2026-09-25,2026-09-27,Piping,L6,3
+PIP-L6-2012,GTAW Root Pass & Hot Pass Welding on Joints J-01 to J-08,2026-09-28,2026-09-30,Piping,L6,3
+PIP-L6-2013,SMAW Fill & Cap Welding on Field Butt Welds,2026-10-01,2026-10-03,Piping,L6,3
+PIP-L6-2014,Non-Destructive Testing (100% RT/PAUT on Field Welds),2026-10-04,2026-10-05,Piping,L6,2
+PIP-L5-2015,Pipe Lowering & Trench Bedding Alignment,2026-10-06,2026-10-08,Piping,L5,3
+PIP-L6-2016,Golden Tie-in Joint Fit-up & Welding at Battery Limit,2026-10-09,2026-10-11,Piping,L6,3
+PIP-L6-2017,Spring Hanger & Structural Pipe Shoe Torque Tightening,2026-10-12,2026-10-14,Piping,L6,3
+PIP-L5-2018,Hydrostatic Pressure Test (Test Pack TP-01 @ 18.5 Bar),2026-10-15,2026-10-17,Piping,L5,3
+PIP-L6-2019,System Dewatering & High-Pressure Air Blowing/Drying,2026-10-18,2026-10-19,Piping,L6,2
+PIP-L5-2020,Inline Control Valve (FV-1021) & Orifice Flange Installation,2026-10-20,2026-10-22,Piping,L5,3
+PIP-L5-2021,Preformed Mineral Wool Insulation & Aluminum Jacketing,2026-10-23,2026-10-27,Piping,L5,5

@@ -17,6 +17,7 @@ import BOQOptimizer from './components/BOQOptimizer';
 import Worklog from './components/Worklog';
 import ProjectPlans from './components/ProjectPlans';
 import RoleSelection from './components/RoleSelection';
+import ScheduleUpdater from './components/ScheduleUpdater';
 import { ViewState, Project, UserProfile, UserRole } from './types';
 import { authService } from './services/authService';
 
@@ -72,6 +73,8 @@ const App: React.FC = () => {
         return <Permits project={currentProject} />;
       case ViewState.SCHEDULE:
         return <AutoSchedule project={currentProject} />;
+      case ViewState.SCHEDULE_UPDATER:
+        return <ScheduleUpdater />;
       case ViewState.CODE_COMPLIANCE:
         return <CodeCompliance project={currentProject} />;
       case ViewState.BOQ_OPTIMIZER:

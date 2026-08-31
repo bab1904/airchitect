@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Mic, Sparkles, AlertTriangle, Download, RefreshCw, Check, Activity, BarChart2 } from 'lucide-react';
+import { Mic, Sparkles, AlertTriangle, RefreshCw, Check, Activity, BarChart2 } from 'lucide-react';
+import ReconciliationDashboard from '../app/components/ReconciliationDashboard';
 
 export interface ScheduleItem {
   id: string;
@@ -62,6 +63,7 @@ const ScheduleUpdater: React.FC = () => {
   const [matchResult, setMatchResult] = useState<MatchResult | null>(null);
   const [filterDiscipline, setFilterDiscipline] = useState<'All' | 'Civil' | 'Piping'>('All');
   const [appliedId, setAppliedId] = useState<string | null>(null);
+  const [viewTab, setViewTab] = useState<'GANTT' | 'TIME_AGENT'>('TIME_AGENT');
 
   const sampleScenarios = [
     {
@@ -230,24 +232,41 @@ const ScheduleUpdater: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-3">
+          <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-bold">
+            <button
+              onClick={() => setViewTab('TIME_AGENT')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                viewTab === 'TIME_AGENT' ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Sparkles size={14} />
+              <span>Time Agent Reconciler</span>
+            </button>
+            <button
+              onClick={() => setViewTab('GANTT')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
+                viewTab === 'GANTT' ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <BarChart2 size={14} />
+              <span>Live Gantt Sync</span>
+            </button>
+          </div>
+
           <button 
             onClick={() => setSchedule(INITIAL_SCHEDULE)}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 shadow-sm"
           >
-            <RefreshCw size={14} /> Reset Schedule
+            <RefreshCw size={14} /> Reset
           </button>
-          <a
-            href="/piping_civil_l5_l6_schedule.csv"
-            download="piping_civil_l5_l6_schedule.csv"
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 shadow-sm"
-          >
-            <Download size={14} /> Export CSV
-          </a>
         </div>
       </div>
 
-      {/* Main 2-Column Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {viewTab === 'TIME_AGENT' ? (
+        <ReconciliationDashboard />
+      ) : (
+        /* Main 2-Column Grid */
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Left Column: Supervisor Input & Extractor (5 Cols) */}
         <div className="lg:col-span-5 space-y-5">
@@ -491,6 +510,7 @@ const ScheduleUpdater: React.FC = () => {
         </div>
 
       </div>
+      )}
     </div>
   );
 };

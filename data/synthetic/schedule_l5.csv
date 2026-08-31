@@ -1,0 +1,21 @@
+Activity_ID,WBS_Path,Discipline,Description,Planned_Start,Planned_End
+ACT-CIV-1010,INFRA.BRDG.SUB.EXC,Civil,Bulk Earthwork & Trench Excavation for Pier P-01 Foundation,2026-09-01,2026-09-05
+ACT-CIV-1020,INFRA.BRDG.SUB.PCC,Civil,Plain Cement Concrete Blinding Layer (PCC M15) 100mm Thick,2026-09-06,2026-09-08
+ACT-CIV-1030,INFRA.BRDG.SUB.REB,Civil,Fabrication and Tying of Heavy Rebar Cage for Pile Cap PC-01,2026-09-09,2026-09-13
+ACT-CIV-1040,INFRA.BRDG.SUB.FOR,Civil,Modular Steel Shuttering & Formwork Erection for Pier Shaft,2026-09-14,2026-09-17
+ACT-CIV-1050,INFRA.BRDG.SUB.CON,Civil,Mass Concrete Pouring (Grade M40 Self-Compacting) for Pier Shaft,2026-09-18,2026-09-19
+ACT-CIV-1060,INFRA.BRDG.SUB.CUR,Civil,Continuous Wet Burlap Curing & Temperature Monitoring (7 Days),2026-09-20,2026-09-27
+ACT-CIV-1070,INFRA.BRDG.SUP.CAP,Civil,Staging Erection & Cast-in-situ Concrete Pour for Pier Cap,2026-09-28,2026-10-03
+ACT-CIV-1080,INFRA.BRDG.SUP.BEA,Civil,Pot-PTFE Elastomeric Bearing Pad Alignment and Grouting,2026-10-04,2026-10-06
+ACT-CIV-1090,INFRA.BRDG.SUP.GIR,Civil,Precast Prestressed Concrete (PSC) I-Girder Tandem Crane Erection,2026-10-07,2026-10-11
+ACT-CIV-1100,INFRA.BRDG.SUP.DEK,Civil,Reinforced Concrete Deck Slab Casting (Span 1 to 2),2026-10-12,2026-10-16
+ACT-CIV-1110,INFRA.DRAIN.CUL.BOX,Civil,Precast RCC Box Culvert Segment Placement & Joint Sealing (Line C-1),2026-09-15,2026-09-20
+ACT-CIV-1120,INFRA.DRAIN.SWD.CAS,Civil,Cast-in-place Stormwater U-Drain Channel Construction with Gratings,2026-09-21,2026-09-26
+ACT-CIV-1130,INFRA.RETW.GEO.PAN,Civil,Reinforced Earth (RE) Wall Precast Facing Panel Placement with Geogrid,2026-09-27,2026-10-04
+ACT-CIV-1140,INFRA.RETW.BAC.COM,Civil,Granular Select Fill Backfilling with Heavy Vibratory Roller Compaction,2026-10-05,2026-10-09
+ACT-CIV-1150,INFRA.ROAD.SUB.GRB,Civil,Granular Sub-Base (GSB) Layer Spreading and Motor Grader Profiling,2026-10-10,2026-10-14
+ACT-CIV-1160,INFRA.ROAD.BAS.WMM,Civil,Wet Mix Macadam (WMM) Base Course Laying with Sensor Paver,2026-10-15,2026-10-18
+ACT-CIV-1170,INFRA.ROAD.SUR.DBM,Civil,Dense Bituminous Macadam (DBM) Binder Course Paving (75mm Thick),2026-10-19,2026-10-22
+ACT-CIV-1180,INFRA.ROAD.SUR.BCP,Civil,Bituminous Concrete (BC) Wearing Surface Course Asphalt Paving (40mm),2026-10-23,2026-10-25
+ACT-CIV-1190,INFRA.UTIL.SLV.DRL,Civil,Horizontal Directional Drilling (HDD) & Utility Duct Conduit Sleeving,2026-10-26,2026-10-29
+ACT-CIV-1200,INFRA.ROAD.SAF.BAR,Civil,W-Beam Crash Barrier Erection, Kerb Stone Painting & Road Signage,2026-10-30,2026-11-03

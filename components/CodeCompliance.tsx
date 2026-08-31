@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { runComplianceCheck } from '../services/geminiService';
 import { Project, ComplianceReport } from '../types';
 import { BookOpen, CheckCircle, XCircle, AlertTriangle, Activity, Ruler, Wind, Flame } from 'lucide-react';
@@ -21,6 +21,10 @@ const CodeCompliance: React.FC<CodeComplianceProps> = ({ project }) => {
   const [sideSetback2, setSideSetback2] = useState('1.5');
   const [roadWidth, setRoadWidth] = useState('30'); // feet
   const [additionalNotes, setAdditionalNotes] = useState('');
+
+  useEffect(() => {
+    handleCheck();
+  }, []);
 
   const handleCheck = async () => {
     setLoading(true);

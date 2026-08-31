@@ -27,38 +27,46 @@ const App: React.FC = () => {
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
 
   const handleRoleSelect = (role: UserRole) => {
-      const user = authService.loginAsRole(role);
-      setCurrentUser(user);
-      setCurrentView(ViewState.PROJECT_LIST);
-      setCurrentProject(null);
+    const user = authService.loginAsRole(role);
+    setCurrentUser(user);
+    setCurrentView(ViewState.PROJECT_LIST);
+    setCurrentProject(null);
   };
 
   const handleLogout = () => {
-      authService.logout();
-      setCurrentUser(null);
-      setCurrentProject(null);
-      setCurrentView(ViewState.PROJECT_LIST);
+    authService.logout();
+    setCurrentUser(null);
+    setCurrentProject(null);
+    setCurrentView(ViewState.PROJECT_LIST);
   };
 
   const handleProjectSelect = (project: Project) => {
-      setCurrentProject(project);
-      setCurrentView(ViewState.EXPLORER);
+    setCurrentProject(project);
+    setCurrentView(ViewState.EXPLORER);
   };
 
-  const handleNewToolSelect = (tool: 'floor' | 'cost') => {
-      setCurrentProject(null);
-      if (tool === 'floor') setCurrentView(ViewState.FLOOR_PLAN);
-      if (tool === 'cost') setCurrentView(ViewState.COST_ESTIMATION);
+  const handleNewToolSelect = (tool: 'floor' | 'cost' | 'schedule') => {
+    setCurrentProject(null);
+    if (tool === 'floor') setCurrentView(ViewState.FLOOR_PLAN);
+    if (tool === 'cost') setCurrentView(ViewState.COST_ESTIMATION);
+    if (tool === 'schedule') setCurrentView(ViewState.SCHEDULE_UPDATER);
   };
 
   const renderView = () => {
     switch (currentView) {
       case ViewState.PROJECT_LIST:
-          return <ProjectList onSelectProject={handleProjectSelect} onNewToolsSelect={handleNewToolSelect} userRole={currentUser!.role} />;
+        return (
+          <ProjectList 
+            onSelectProject={handleProjectSelect} 
+            onNewToolsSelect={handleNewToolSelect} 
+            userRole={currentUser!.role} 
+            onLogout={handleLogout}
+          />
+        );
       
       // Project Specific Views
       case ViewState.EXPLORER:
-          return currentProject ? <ProjectExplorer project={currentProject} userRole={currentUser!.role} /> : null;
+        return currentProject ? <ProjectExplorer project={currentProject} userRole={currentUser!.role} /> : null;
       case ViewState.WORKFORCE:
         return <Workforce />;
       case ViewState.MATERIALS:
@@ -96,26 +104,34 @@ const App: React.FC = () => {
   };
 
   if (!currentUser) {
-      return <RoleSelection onSelectRole={handleRoleSelect} />;
+    return <RoleSelection onSelectRole={handleRoleSelect} />;
   }
 
   // If in Project List View, don't show the Main Sidebar Layout yet (Design choice)
-  // But we pass the userRole to display correct welcome message
+  // But we pass the userRole to display correct welcome message and logout option
   if (currentView === ViewState.PROJECT_LIST) {
-      return <ProjectList onSelectProject={handleProjectSelect} onNewToolsSelect={handleNewToolSelect} userRole={currentUser.role} />;
+    return (
+      <ProjectList 
+        onSelectProject={handleProjectSelect} 
+        onNewToolsSelect={handleNewToolSelect} 
+        userRole={currentUser.role}
+        onLogout={handleLogout}
+      />
+    );
   }
 
   return (
     <Layout 
-        currentView={currentView} 
-        onViewChange={setCurrentView} 
-        userRole={currentUser.role}
-        currentProject={currentProject}
-        onLogout={handleLogout}
-        onSwitchProject={() => {
-            setCurrentProject(null);
-            setCurrentView(ViewState.PROJECT_LIST);
-        }}
+      currentView={currentView} 
+      onViewChange={setCurrentView} 
+      userRole={currentUser.role}
+      currentProject={currentProject}
+      onLogout={handleLogout}
+      onSwitchProject={() => {
+        setCurrentProject(null);
+        setCurrentView(ViewState.PROJECT_LIST);
+      }}
+      onSelectProjectDirectly={handleProjectSelect}
     >
       {renderView()}
       <AIAssistant userRole={currentUser.role} project={currentProject} />

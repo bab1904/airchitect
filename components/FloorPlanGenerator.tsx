@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Upload, Wand2, Download, Layers, X, Eye, Grid, Sparkles, Check, Home, Building, Building2, Compass, Ruler, RefreshCw } from 'lucide-react';
+import { Upload, Wand2, Download, Layers, X, Eye, Sparkles, Check, Home, Building, Building2, Compass, Ruler, RefreshCw, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 import { generateFloorPlanImage, generate3DView } from '../services/geminiService';
 
 export interface PresetDesign {
@@ -115,8 +115,7 @@ const FloorPlanGenerator: React.FC = () => {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState<'2D' | '3D'>('2D');
-  const [showGrid, setShowGrid] = useState(true);
-  const [showDimensions, setShowDimensions] = useState(true);
+  const [zoomLevel, setZoomLevel] = useState<number>(100);
   const [uploadedSketch, setUploadedSketch] = useState<string | null>(null);
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -180,6 +179,10 @@ const FloorPlanGenerator: React.FC = () => {
     setTimeout(() => setCopySuccess(false), 2000);
   };
 
+  const handleZoomIn = () => setZoomLevel(prev => Math.min(prev + 25, 250));
+  const handleZoomOut = () => setZoomLevel(prev => Math.max(prev - 25, 75));
+  const handleResetZoom = () => setZoomLevel(100);
+
   const currentPreset = PRESET_DESIGNS[activePresetIndex] || PRESET_DESIGNS[0];
   const currentRooms = currentPreset.rooms;
 
@@ -190,17 +193,17 @@ const FloorPlanGenerator: React.FC = () => {
         <div>
           <div className="flex items-center gap-2">
             <span className="bg-indigo-100 text-indigo-700 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider flex items-center gap-1">
-              <Sparkles size={12} /> Dynamic Procedural CAD
+              <Sparkles size={12} /> High-Visibility Architectural CAD
             </span>
             <span className="bg-slate-100 text-slate-700 text-xs font-semibold px-2 py-0.5 rounded">
               Active: {currentPreset.type} ({currentPreset.area})
             </span>
           </div>
           <h1 className="text-2xl font-bold text-slate-900 mt-1 flex items-center gap-2">
-            <Wand2 className="text-indigo-600" /> AI Dynamic Floor Plan &amp; 3D Design
+            <Wand2 className="text-indigo-600" /> AI High-Definition Floor Plan &amp; 3D Design
           </h1>
           <p className="text-sm text-slate-500">
-            Generates distinct architectural 2D CAD layouts (1BHK, 2BHK, 3BHK, 4BHK Villa, Duplex, Office) and photorealistic 3D perspectives.
+            High-contrast dimension strings, large-format room callouts, door/window markers, and interactive viewport zoom (75%–250%).
           </p>
         </div>
 
@@ -211,7 +214,7 @@ const FloorPlanGenerator: React.FC = () => {
               className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-md hover:shadow-lg transition-all"
             >
               {copySuccess ? <Check size={16} /> : <Download size={16} />}
-              {copySuccess ? "Saved!" : "Download CAD Blueprint"}
+              {copySuccess ? "Saved!" : "Download Vector CAD SVG"}
             </button>
           )}
         </div>
@@ -354,14 +357,14 @@ const FloorPlanGenerator: React.FC = () => {
             </div>
             <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
               {currentRooms.map((room, i) => (
-                <div key={i} className="p-2 bg-slate-50 rounded-lg flex items-center justify-between text-xs border border-slate-100">
+                <div key={i} className="p-2.5 bg-slate-50 rounded-xl flex items-center justify-between text-xs border border-slate-100">
                   <div>
-                    <span className="font-semibold text-slate-800 block">{room.name}</span>
-                    <span className="text-[10px] text-slate-400">{room.floor}</span>
+                    <span className="font-bold text-slate-800 block">{room.name}</span>
+                    <span className="text-[10px] text-slate-500 font-medium">{room.floor}</span>
                   </div>
                   <div className="text-right">
-                    <span className="font-mono font-bold text-indigo-600 block">{room.dimensions}</span>
-                    <span className="text-[10px] text-slate-500">{room.area}</span>
+                    <span className="font-mono font-bold text-indigo-700 text-xs block">{room.dimensions}</span>
+                    <span className="text-[10px] text-slate-500 font-semibold">{room.area}</span>
                   </div>
                 </div>
               ))}
@@ -370,7 +373,7 @@ const FloorPlanGenerator: React.FC = () => {
         </div>
 
         {/* Right Column: Architectural Viewport Canvas (7 Cols) */}
-        <div className="lg:col-span-7 bg-slate-900 rounded-2xl overflow-hidden shadow-2xl flex flex-col relative min-h-[580px] border border-slate-800">
+        <div className="lg:col-span-7 bg-slate-900 rounded-2xl overflow-hidden shadow-2xl flex flex-col relative min-h-[620px] border border-slate-800">
           {/* Viewport Top Toolbar */}
           <div className="p-4 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 flex items-center justify-between z-10">
             <div className="flex items-center gap-2">
@@ -392,61 +395,76 @@ const FloorPlanGenerator: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex items-center gap-2">
+            {/* Viewport Zoom & Inspection Controls */}
+            <div className="flex items-center gap-1.5 bg-slate-950/80 p-1 rounded-xl border border-slate-800">
               <button
-                onClick={() => setShowGrid(!showGrid)}
-                className={`p-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                  showGrid ? 'bg-slate-800 border-indigo-500 text-indigo-400' : 'bg-slate-900 border-slate-700 text-slate-500'
-                }`}
-                title="Toggle CAD Grid"
+                onClick={handleZoomOut}
+                disabled={zoomLevel <= 75}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 disabled:opacity-40 transition-colors"
+                title="Zoom Out (Ctrl -)"
               >
-                <Grid size={16} />
+                <ZoomOut size={15} />
               </button>
+
+              <span className="text-[11px] font-mono font-bold text-indigo-400 px-2 min-w-[45px] text-center">
+                {zoomLevel}%
+              </span>
+
               <button
-                onClick={() => setShowDimensions(!showDimensions)}
-                className={`p-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                  showDimensions ? 'bg-slate-800 border-indigo-500 text-indigo-400' : 'bg-slate-900 border-slate-700 text-slate-500'
-                }`}
-                title="Toggle Dimensions"
+                onClick={handleZoomIn}
+                disabled={zoomLevel >= 250}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 disabled:opacity-40 transition-colors"
+                title="Zoom In (Ctrl +)"
               >
-                <Ruler size={16} />
+                <ZoomIn size={15} />
               </button>
+
               <button
-                onClick={downloadPlan}
-                className="p-1.5 rounded-lg text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700"
-                title="Download High-Res SVG"
+                onClick={handleResetZoom}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                title="Reset Zoom to 100%"
               >
-                <Download size={16} />
+                <RotateCcw size={14} />
               </button>
             </div>
           </div>
 
-          {/* Viewport Canvas Render */}
-          <div className="flex-1 flex items-center justify-center p-6 relative overflow-hidden bg-slate-950">
+          {/* Viewport Canvas Render with Dynamic Zoom Container */}
+          <div className="flex-1 flex items-center justify-center p-4 relative overflow-auto bg-slate-950 select-none">
             {loading ? (
               <div className="flex flex-col items-center justify-center text-center space-y-4">
                 <div className="w-14 h-14 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin shadow-lg" />
                 <div>
                   <h3 className="text-white font-bold text-base">Rendering Architectural {mode} Layout...</h3>
-                  <p className="text-slate-400 text-xs mt-1">Generating unique structural partitions, column grid, and dimensions for {currentPreset.type}</p>
+                  <p className="text-slate-400 text-xs mt-1">Generating high-contrast dimension lines, room tags, and structural column grid for {currentPreset.type}</p>
                 </div>
               </div>
             ) : generatedImage ? (
-              <div className="w-full h-full flex items-center justify-center animate-fade-in relative group">
+              <div 
+                className="transition-all duration-200 flex items-center justify-center relative w-full h-full min-h-[500px]"
+                style={{
+                  transform: `scale(${zoomLevel / 100})`,
+                  transformOrigin: 'center center'
+                }}
+              >
                 <img
                   src={generatedImage}
                   alt="Generated Design"
-                  className="max-w-full max-h-[500px] object-contain rounded-xl shadow-2xl transition-all duration-300"
+                  className="max-w-full max-h-[560px] object-contain rounded-xl shadow-2xl transition-all duration-300"
                 />
-                <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700 text-[11px] text-slate-300 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                  Live Procedural CAD ({currentPreset.type})
-                </div>
               </div>
             ) : (
               <div className="text-center text-slate-500 space-y-3">
                 <Layers size={48} className="mx-auto opacity-20" />
                 <p className="text-sm">Click "Generate 2D CAD" or "3D Perspective" to render your blueprint.</p>
+              </div>
+            )}
+
+            {/* Bottom Status Bar */}
+            {generatedImage && (
+              <div className="absolute bottom-4 right-4 bg-slate-900/90 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-slate-700 text-[11px] text-slate-300 flex items-center gap-2 shadow-lg">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                High-Definition CAD | Zoom: {zoomLevel}%
               </div>
             )}
           </div>

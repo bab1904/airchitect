@@ -22,22 +22,14 @@ const hasValidApiKey = (): boolean => {
 };
 
 // -------------------------------------------------------------
-// Procedural Architectural 2D Floor Plan CAD SVG Generator
-// Generates completely different floor plans according to prompt & layout type!
+// High-Visibility Procedural Architectural 2D Floor Plan CAD SVG Generator
+// Engineered with High-Contrast Dimension Badges, Clear Room Tags & Indication Markers
 // -------------------------------------------------------------
 export interface RoomDetail {
   name: string;
   dimensions: string;
   area: string;
   floor: string;
-}
-
-export interface GeneratedPlanMeta {
-  title: string;
-  category: string;
-  totalArea: string;
-  rooms: RoomDetail[];
-  svgDataUri: string;
 }
 
 export const create2DCADFloorPlanSVG = (prompt: string): string => {
@@ -52,461 +44,645 @@ export const create2DCADFloorPlanSVG = (prompt: string): string => {
   const isHospitalClinic = p.includes('clinic') || p.includes('hospital') || p.includes('medical') || p.includes('doctor');
   const isRestaurant = p.includes('restaurant') || p.includes('cafe') || p.includes('dining') || p.includes('food');
 
-  // 1. COMMERCIAL OFFICE LAYOUT
-  if (isCommercial) {
-    return generateCommercialOfficeCAD();
-  }
+  if (isCommercial) return generateCommercialOfficeCAD();
+  if (isStudio1BHK) return generateStudio1BHKCAD();
+  if (is2BHK) return generate2BHKCAD();
+  if (isVilla4BHK) return generate4BHKVillaCAD();
+  if (isDuplex) return generateDuplexCAD();
+  if (isHospitalClinic) return generateClinicCAD();
+  if (isRestaurant) return generateRestaurantCAD();
 
-  // 2. 1BHK / STUDIO APARTMENT LAYOUT
-  if (isStudio1BHK) {
-    return generateStudio1BHKCAD();
-  }
-
-  // 3. 2BHK RESIDENTIAL APARTMENT LAYOUT
-  if (is2BHK) {
-    return generate2BHKCAD();
-  }
-
-  // 4. 4BHK LUXURY VILLA WITH COURTYARD
-  if (isVilla4BHK) {
-    return generate4BHKVillaCAD();
-  }
-
-  // 5. DUPLEX RESIDENCE WITH DOUBLE HEIGHT FOYER
-  if (isDuplex) {
-    return generateDuplexCAD();
-  }
-
-  // 6. MEDICAL CLINIC LAYOUT
-  if (isHospitalClinic) {
-    return generateClinicCAD();
-  }
-
-  // 7. RESTAURANT / CAFE LAYOUT
-  if (isRestaurant) {
-    return generateRestaurantCAD();
-  }
-
-  // Default: STANDARD 3BHK CONTEMPORARY RESIDENCE
   return generate3BHKResidentialCAD();
 };
 
 /**
- * Procedural 3BHK Contemporary Residential CAD Floor Plan
+ * 3BHK Contemporary Residential CAD Floor Plan with High-Visibility Callouts
  */
 function generate3BHKResidentialCAD(): string {
   const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" style="background:#0b1120; font-family:'Courier New', monospace;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" width="1100" height="780" style="background:#090d16; font-family:'Segoe UI', Arial, sans-serif;">
     <defs>
+      <!-- CAD Grid Systems -->
       <pattern id="cadGrid" width="40" height="40" patternUnits="userSpaceOnUse">
         <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1"/>
       </pattern>
       <pattern id="cadFineGrid" width="10" height="10" patternUnits="userSpaceOnUse">
         <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#0f1f38" stroke-width="0.5"/>
       </pattern>
+      <!-- Marker Arrows for Dimensions -->
+      <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+        <path d="M 0 0 L 8 4 L 0 8 Z" fill="#ef4444" />
+      </marker>
     </defs>
-    <rect width="1000" height="700" fill="url(#cadFineGrid)" />
-    <rect width="1000" height="700" fill="url(#cadGrid)" />
-
-    <!-- CAD Border & Title Block -->
-    <rect x="25" y="25" width="950" height="650" fill="none" stroke="#38bdf8" stroke-width="2.5" />
-    <rect x="30" y="30" width="940" height="640" fill="none" stroke="#38bdf8" stroke-width="0.75" stroke-dasharray="8,4" />
     
-    <!-- Title Block Header -->
-    <rect x="630" y="560" width="335" height="105" fill="#020617" stroke="#38bdf8" stroke-width="1.5" />
-    <text x="645" y="585" fill="#38bdf8" font-size="13" font-weight="bold">PROJECT: 3BHK CONTEMPORARY VILLA</text>
-    <text x="645" y="605" fill="#94a3b8" font-size="10">BUILT-UP AREA: 1,650 SQFT | SCALE: 1:50</text>
-    <text x="645" y="625" fill="#94a3b8" font-size="10">UNITS: FEET &amp; INCHES (IMPERIAL CAD)</text>
-    <text x="645" y="645" fill="#22c55e" font-size="10">CODE: NBC 2016 STRUCTURALLY COMPLIANT</text>
+    <rect width="1100" height="780" fill="url(#cadFineGrid)" />
+    <rect width="1100" height="780" fill="url(#cadGrid)" />
+
+    <!-- Outer CAD Border -->
+    <rect x="20" y="20" width="1060" height="740" fill="none" stroke="#38bdf8" stroke-width="3" />
+    <rect x="25" y="25" width="1050" height="730" fill="none" stroke="#0284c7" stroke-width="1" stroke-dasharray="10,5" />
 
     <!-- North Compass -->
-    <g transform="translate(85, 85)">
-      <circle cx="0" cy="0" r="26" fill="#020617" stroke="#38bdf8" stroke-width="1.5" />
-      <polygon points="0,-20 7,9 0,3" fill="#ef4444" />
-      <polygon points="0,-20 -7,9 0,3" fill="#38bdf8" />
-      <text x="-4" y="-24" fill="#ef4444" font-size="11" font-weight="bold">N</text>
+    <g transform="translate(80, 80)">
+      <circle cx="0" cy="0" r="30" fill="#020617" stroke="#38bdf8" stroke-width="2" />
+      <polygon points="0,-24 8,12 0,5" fill="#ef4444" />
+      <polygon points="0,-24 -8,12 0,5" fill="#38bdf8" />
+      <text x="-5" y="-28" fill="#ef4444" font-size="14" font-weight="900">N</text>
+      <text x="-4" y="24" fill="#94a3b8" font-size="10" font-weight="bold">S</text>
+      <text x="22" y="4" fill="#94a3b8" font-size="10" font-weight="bold">E</text>
+      <text x="-28" y="4" fill="#94a3b8" font-size="10" font-weight="bold">W</text>
     </g>
 
-    <!-- Outer Structural Walls -->
-    <rect x="150" y="80" width="690" height="450" fill="#030712" stroke="#38bdf8" stroke-width="7" />
+    <!-- Project Title Block (Bottom Right) -->
+    <g transform="translate(700, 630)">
+      <rect width="365" height="115" rx="8" fill="#020617" stroke="#38bdf8" stroke-width="2" />
+      <text x="16" y="28" fill="#38bdf8" font-size="14" font-weight="bold">PROJECT: 3BHK CONTEMPORARY VILLA</text>
+      <text x="16" y="52" fill="#f8fafc" font-size="12" font-weight="600">TOTAL BUILT-UP: 1,650 SQFT | SCALE 1:50</text>
+      <text x="16" y="74" fill="#94a3b8" font-size="11">DIMENSIONS: FEET &amp; INCHES [METRIC CONVERSION]</text>
+      <rect x="16" y="86" width="330" height="20" rx="4" fill="#052e16" stroke="#22c55e" stroke-width="1" />
+      <text x="26" y="100" fill="#4ade80" font-size="11" font-weight="bold">✓ NBC 2016 STRUCTURAL &amp; FIRE COMPLIANT</text>
+    </g>
 
-    <!-- 1. Living & Dining Hall -->
-    <rect x="150" y="80" width="370" height="260" fill="#0f172a" stroke="#38bdf8" stroke-width="3" />
-    <text x="260" y="180" fill="#ffffff" font-size="15" font-weight="bold">LIVING &amp; DINING</text>
-    <text x="270" y="202" fill="#38bdf8" font-size="12">18'-6" x 14'-0" (259 SQFT)</text>
-    <text x="275" y="220" fill="#64748b" font-size="10">Italian Vitrified Tiles</text>
-    <!-- Furniture: Sofa & Coffee Table -->
-    <rect x="175" y="110" width="80" height="35" rx="5" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
-    <rect x="195" y="155" width="40" height="20" rx="3" fill="#334155" stroke="#94a3b8" stroke-width="1"/>
+    <!-- Legend of Symbols (Top Right) -->
+    <g transform="translate(770, 40)">
+      <rect width="295" height="75" rx="8" fill="#020617" stroke="#64748b" stroke-width="1.5" />
+      <text x="12" y="20" fill="#cbd5e1" font-size="11" font-weight="bold">ARCHITECTURAL SYMBOL LEGEND</text>
+      <rect x="15" y="32" width="12" height="12" fill="#ef4444" stroke="#fff" />
+      <text x="34" y="42" fill="#94a3b8" font-size="11">Column (9"x15")</text>
+      <rect x="150" y="32" width="14" height="6" fill="#f59e0b" stroke="#fff" />
+      <text x="170" y="42" fill="#94a3b8" font-size="11">Window (W)</text>
+      <path d="M 15 62 A 10 10 0 0 1 25 72" fill="none" stroke="#22c55e" stroke-width="2" />
+      <text x="34" y="66" fill="#94a3b8" font-size="11">Door Swing (D)</text>
+      <line x1="150" y1="62" x2="168" y2="62" stroke="#ef4444" stroke-width="2"/>
+      <text x="175" y="66" fill="#94a3b8" font-size="11">Dimension Line</text>
+    </g>
 
-    <!-- 2. Master Bedroom Suite -->
-    <rect x="520" y="80" width="320" height="230" fill="#0f172a" stroke="#38bdf8" stroke-width="3" />
-    <text x="600" y="170" fill="#ffffff" font-size="15" font-weight="bold">MASTER SUITE</text>
-    <text x="610" y="192" fill="#38bdf8" font-size="12">15'-0" x 13'-6" (202 SQFT)</text>
-    <text x="615" y="210" fill="#64748b" font-size="10">Hardwood Laminated</text>
-    <!-- Bed CAD block -->
-    <rect x="730" y="105" width="90" height="70" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
-    <rect x="740" y="112" width="30" height="20" rx="2" fill="#475569" />
-    <rect x="780" y="112" width="30" height="20" rx="2" fill="#475569" />
+    <!-- ======================================================== -->
+    <!-- EXTERIOR STRUCTURAL WALLS (Heavy 9" Masonry Profile) -->
+    <!-- ======================================================== -->
+    <rect x="160" y="140" width="700" height="460" fill="#030712" stroke="#38bdf8" stroke-width="10" />
 
-    <!-- 3. Ensuite Master Bath -->
-    <rect x="710" y="310" width="130" height="110" fill="#091e3a" stroke="#38bdf8" stroke-width="2.5" />
-    <text x="735" y="360" fill="#ffffff" font-size="11" font-weight="bold">ENSUITE</text>
-    <text x="735" y="378" fill="#38bdf8" font-size="9">7' x 8' (56 SQFT)</text>
+    <!-- 1. LIVING & DINING HALL (Top Left) -->
+    <rect x="160" y="140" width="370" height="270" fill="#0f172a" stroke="#38bdf8" stroke-width="4" />
+    <!-- Center Tag Badge -->
+    <g transform="translate(210, 220)">
+      <rect width="270" height="85" rx="8" fill="#020617" stroke="#38bdf8" stroke-width="2" />
+      <text x="135" y="28" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">LIVING &amp; DINING</text>
+      <text x="135" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">18'-6" x 14'-0" (259 SQFT)</text>
+      <text x="135" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Italian Vitrified Flooring</text>
+    </g>
 
-    <!-- 4. Bedroom 2 (Kids / Guest) -->
-    <rect x="520" y="310" width="190" height="220" fill="#0f172a" stroke="#38bdf8" stroke-width="3" />
-    <text x="560" y="410" fill="#ffffff" font-size="14" font-weight="bold">BEDROOM 2</text>
-    <text x="555" y="430" fill="#38bdf8" font-size="11">12'-0" x 11'-0" (132 SQFT)</text>
-    <rect x="540" y="450" width="80" height="65" rx="3" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2"/>
+    <!-- 2. MASTER BEDROOM SUITE (Top Right) -->
+    <rect x="530" y="140" width="330" height="240" fill="#0f172a" stroke="#38bdf8" stroke-width="4" />
+    <g transform="translate(565, 210)">
+      <rect width="260" height="85" rx="8" fill="#020617" stroke="#38bdf8" stroke-width="2" />
+      <text x="130" y="28" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">MASTER BEDROOM</text>
+      <text x="130" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">15'-0" x 13'-6" (202 SQFT)</text>
+      <text x="130" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Hardwood Laminated</text>
+    </g>
 
-    <!-- 5. Modular Kitchen & Utility -->
-    <rect x="150" y="340" width="220" height="190" fill="#0f172a" stroke="#38bdf8" stroke-width="3" />
-    <text x="195" y="420" fill="#ffffff" font-size="14" font-weight="bold">MODULAR KITCHEN</text>
-    <text x="195" y="440" fill="#38bdf8" font-size="11">11'-0" x 12'-0" (132 SQFT)</text>
-    <text x="200" y="458" fill="#64748b" font-size="10">Granite Countertop</text>
-    <!-- Kitchen Counter L-shape -->
-    <path d="M 155 345 L 355 345 L 355 385 L 195 385 L 195 520 L 155 520 Z" fill="#1e293b" stroke="#eab308" stroke-width="1.5"/>
+    <!-- 3. ENSUITE BATHROOM -->
+    <rect x="720" y="380" width="140" height="110" fill="#091e3a" stroke="#38bdf8" stroke-width="3" />
+    <g transform="translate(730, 405)">
+      <rect width="120" height="60" rx="6" fill="#020617" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="60" y="24" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">ENSUITE</text>
+      <text x="60" y="44" fill="#fde047" font-size="13" font-weight="bold" text-anchor="middle">7' x 8' (56 SQFT)</text>
+    </g>
 
-    <!-- 6. Bedroom 3 / Study -->
-    <rect x="370" y="340" width="150" height="190" fill="#0f172a" stroke="#38bdf8" stroke-width="3" />
-    <text x="395" y="420" fill="#ffffff" font-size="13" font-weight="bold">BEDROOM 3</text>
-    <text x="395" y="440" fill="#38bdf8" font-size="10">10'-0" x 12'-0"</text>
+    <!-- 4. BEDROOM 2 / KIDS ROOM (Bottom Right) -->
+    <rect x="530" y="380" width="190" height="220" fill="#0f172a" stroke="#38bdf8" stroke-width="4" />
+    <g transform="translate(545, 450)">
+      <rect width="160" height="80" rx="8" fill="#020617" stroke="#38bdf8" stroke-width="2" />
+      <text x="80" y="26" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">BEDROOM 2</text>
+      <text x="80" y="48" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">12'-0" x 11'-0"</text>
+      <text x="80" y="68" fill="#94a3b8" font-size="11" text-anchor="middle">132 SQFT</text>
+    </g>
 
-    <!-- Doors (Green Arc) -->
-    <path d="M 150 200 A 38 38 0 0 1 188 238" fill="none" stroke="#22c55e" stroke-width="2" stroke-dasharray="3,3"/>
-    <line x1="150" y1="200" x2="150" y2="238" stroke="#22c55e" stroke-width="3" />
-    <text x="100" y="222" fill="#22c55e" font-size="10" font-weight="bold">MAIN ENTRY</text>
+    <!-- 5. MODULAR KITCHEN & UTILITY (Bottom Left) -->
+    <rect x="160" y="410" width="220" height="190" fill="#0f172a" stroke="#38bdf8" stroke-width="4" />
+    <g transform="translate(175, 465)">
+      <rect width="190" height="80" rx="8" fill="#020617" stroke="#38bdf8" stroke-width="2" />
+      <text x="95" y="26" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">KITCHEN &amp; UTILITY</text>
+      <text x="95" y="48" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">11'-0" x 12'-0"</text>
+      <text x="95" y="68" fill="#94a3b8" font-size="11" text-anchor="middle">Granite Top (132 SQFT)</text>
+    </g>
 
-    <!-- Windows (Yellow Parallel Lines) -->
-    <rect x="240" y="76" width="90" height="8" fill="#eab308" stroke="#ffffff" stroke-width="1" />
-    <text x="270" y="70" fill="#eab308" font-size="9">W1 (6'x4')</text>
-    <rect x="620" y="76" width="90" height="8" fill="#eab308" stroke="#ffffff" stroke-width="1" />
-    <text x="650" y="70" fill="#eab308" font-size="9">W2 (6'x4')</text>
+    <!-- 6. BEDROOM 3 / STUDY (Bottom Middle) -->
+    <rect x="380" y="410" width="150" height="190" fill="#0f172a" stroke="#38bdf8" stroke-width="4" />
+    <g transform="translate(390, 465)">
+      <rect width="130" height="80" rx="8" fill="#020617" stroke="#38bdf8" stroke-width="2" />
+      <text x="65" y="26" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">BEDROOM 3</text>
+      <text x="65" y="48" fill="#fde047" font-size="13" font-weight="bold" text-anchor="middle">10'-0" x 12'-0"</text>
+      <text x="65" y="68" fill="#94a3b8" font-size="11" text-anchor="middle">Study (120 SQFT)</text>
+    </g>
 
-    <!-- Dimension Lines (Red) -->
-    <line x1="150" y1="52" x2="840" y2="52" stroke="#f43f5e" stroke-width="1.5" />
-    <line x1="150" y1="44" x2="150" y2="60" stroke="#f43f5e" stroke-width="1.5" />
-    <line x1="840" y1="44" x2="840" y2="60" stroke="#f43f5e" stroke-width="1.5" />
-    <rect x="450" y="40" width="90" height="22" fill="#020617" />
-    <text x="460" y="56" fill="#f43f5e" font-size="12" font-weight="bold">46'-0" [14.02m]</text>
+    <!-- ======================================================== -->
+    <!-- DOORS & WINDOWS INDICATION CALLOUTS (HIGH CONTRAST) -->
+    <!-- ======================================================== -->
+    <!-- Main Entry Door D1 -->
+    <g transform="translate(160, 270)">
+      <path d="M 0 0 A 45 45 0 0 1 45 45" fill="none" stroke="#22c55e" stroke-width="3" stroke-dasharray="4,4" />
+      <line x1="0" y1="0" x2="0" y2="45" stroke="#22c55e" stroke-width="4" />
+      <rect x="-105" y="10" width="100" height="26" rx="5" fill="#052e16" stroke="#22c55e" stroke-width="1.5" />
+      <text x="-55" y="28" fill="#4ade80" font-size="12" font-weight="bold" text-anchor="middle">ENTRY D1 (4'x7')</text>
+    </g>
 
-    <!-- Structural Columns (Red Filled Squares) -->
-    <rect x="145" y="75" width="12" height="12" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="515" y="75" width="12" height="12" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="835" y="75" width="12" height="12" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="145" y="335" width="12" height="12" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="515" y="335" width="12" height="12" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="835" y="305" width="12" height="12" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="145" y="525" width="12" height="12" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="365" y="525" width="12" height="12" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="515" y="525" width="12" height="12" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="835" y="525" width="12" height="12" fill="#ef4444" stroke="#fff" stroke-width="1"/>
+    <!-- Master Bedroom Door D2 -->
+    <g transform="translate(530, 260)">
+      <path d="M 0 0 A 35 35 0 0 1 35 35" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="3,3" />
+      <rect x="40" y="5" width="80" height="24" rx="4" fill="#052e16" stroke="#22c55e" stroke-width="1.5" />
+      <text x="80" y="22" fill="#4ade80" font-size="11" font-weight="bold" text-anchor="middle">D2 (3'-3"x7')</text>
+    </g>
+
+    <!-- Kitchen Door D3 -->
+    <g transform="translate(380, 430)">
+      <path d="M 0 0 A 30 30 0 0 0 -30 30" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="3,3" />
+      <rect x="-90" y="5" width="75" height="22" rx="4" fill="#052e16" stroke="#22c55e" stroke-width="1.5" />
+      <text x="-52" y="20" fill="#4ade80" font-size="11" font-weight="bold" text-anchor="middle">D3 (3'x7')</text>
+    </g>
+
+    <!-- Windows W1, W2, W3 (Thick Yellow Double Slits + Labels) -->
+    <g transform="translate(260, 134)">
+      <rect width="110" height="12" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5" />
+      <rect x="15" y="-30" width="80" height="24" rx="4" fill="#451a03" stroke="#f59e0b" stroke-width="1.5" />
+      <text x="55" y="-14" fill="#fde047" font-size="12" font-weight="bold" text-anchor="middle">W1 (6'-0"x4'-0")</text>
+    </g>
+
+    <g transform="translate(640, 134)">
+      <rect width="100" height="12" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5" />
+      <rect x="10" y="-30" width="80" height="24" rx="4" fill="#451a03" stroke="#f59e0b" stroke-width="1.5" />
+      <text x="50" y="-14" fill="#fde047" font-size="12" font-weight="bold" text-anchor="middle">W2 (5'-0"x4'-0")</text>
+    </g>
+
+    <!-- ======================================================== -->
+    <!-- EXTERIOR & INTERIOR DIMENSION STRINGS (PROMINENT RED/WHITE) -->
+    <!-- ======================================================== -->
+    <!-- TOP OVERALL DIMENSION: 46'-0" -->
+    <g transform="translate(0, 85)">
+      <line x1="160" y1="0" x2="860" y2="0" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="160" y1="-12" x2="160" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="860" y1="-12" x2="860" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <!-- Dimension Pill -->
+      <rect x="420" y="-16" width="180" height="32" rx="6" fill="#7f1d1d" stroke="#ef4444" stroke-width="2" />
+      <text x="510" y="6" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">46'-0" [14.02 m]</text>
+    </g>
+
+    <!-- LEFT OVERALL DIMENSION: 32'-0" -->
+    <g transform="translate(105, 0)">
+      <line x1="0" y1="140" x2="0" y2="600" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="-12" y1="140" x2="12" y2="140" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="-12" y1="600" x2="12" y2="600" stroke="#ef4444" stroke-width="2.5" />
+      <rect x="-70" y="350" width="140" height="32" rx="6" fill="#7f1d1d" stroke="#ef4444" stroke-width="2" />
+      <text x="0" y="372" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">32'-0" [9.75 m]</text>
+    </g>
+
+    <!-- BOTTOM SUB-DIMENSIONS: Living Section (24'-0") + Bedroom Section (22'-0") -->
+    <g transform="translate(0, 630)">
+      <line x1="160" y1="0" x2="530" y2="0" stroke="#ef4444" stroke-width="2" />
+      <line x1="530" y1="0" x2="860" y2="0" stroke="#ef4444" stroke-width="2" />
+      <line x1="160" y1="-8" x2="160" y2="8" stroke="#ef4444" stroke-width="2" />
+      <line x1="530" y1="-8" x2="530" y2="8" stroke="#ef4444" stroke-width="2" />
+      <line x1="860" y1="-8" x2="860" y2="8" stroke="#ef4444" stroke-width="2" />
+      <rect x="295" y="-14" width="100" height="26" rx="5" fill="#450a0a" stroke="#ef4444" stroke-width="1.5" />
+      <text x="345" y="4" fill="#fca5a5" font-size="13" font-weight="bold" text-anchor="middle">24'-6"</text>
+      <rect x="645" y="-14" width="100" height="26" rx="5" fill="#450a0a" stroke="#ef4444" stroke-width="1.5" />
+      <text x="695" y="4" fill="#fca5a5" font-size="13" font-weight="bold" text-anchor="middle">21'-6"</text>
+    </g>
+
+    <!-- ======================================================== -->
+    <!-- NUMBERED STRUCTURAL COLUMNS (C1 through C8) -->
+    <!-- ======================================================== -->
+    <g transform="translate(152, 132)"><rect width="16" height="16" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="8" y="12" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">C1</text></g>
+    <g transform="translate(522, 132)"><rect width="16" height="16" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="8" y="12" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">C2</text></g>
+    <g transform="translate(852, 132)"><rect width="16" height="16" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="8" y="12" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">C3</text></g>
+    <g transform="translate(152, 402)"><rect width="16" height="16" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="8" y="12" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">C4</text></g>
+    <g transform="translate(522, 372)"><rect width="16" height="16" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="8" y="12" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">C5</text></g>
+    <g transform="translate(852, 372)"><rect width="16" height="16" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="8" y="12" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">C6</text></g>
+    <g transform="translate(152, 592)"><rect width="16" height="16" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="8" y="12" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">C7</text></g>
+    <g transform="translate(372, 592)"><rect width="16" height="16" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="8" y="12" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">C8</text></g>
+    <g transform="translate(522, 592)"><rect width="16" height="16" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="8" y="12" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">C9</text></g>
+    <g transform="translate(852, 592)"><rect width="16" height="16" fill="#dc2626" stroke="#fff" stroke-width="2"/><text x="8" y="12" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">C10</text></g>
   </svg>
   `;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
 /**
- * Procedural 4BHK Luxury Villa CAD Layout with Central Courtyard & Portico
+ * 4BHK Luxury Courtyard Villa CAD Layout with High-Visibility Callouts
  */
 function generate4BHKVillaCAD(): string {
   const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" style="background:#090d16; font-family:'Courier New', monospace;">
-    <defs>
-      <pattern id="cadGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1"/>
-      </pattern>
-    </defs>
-    <rect width="1000" height="700" fill="url(#cadGrid)" />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" width="1100" height="780" style="background:#090d16; font-family:'Segoe UI', Arial, sans-serif;">
+    <rect width="1100" height="780" fill="#090d16" />
+    <rect x="20" y="20" width="1060" height="740" fill="none" stroke="#eab308" stroke-width="3" />
 
-    <!-- CAD Border & Title Block -->
-    <rect x="25" y="25" width="950" height="650" fill="none" stroke="#eab308" stroke-width="3" />
-    <rect x="30" y="30" width="940" height="640" fill="none" stroke="#eab308" stroke-width="0.75" stroke-dasharray="6,3" />
-    
-    <!-- Title Block Header -->
-    <rect x="630" y="560" width="335" height="105" fill="#020617" stroke="#eab308" stroke-width="1.5" />
-    <text x="645" y="585" fill="#eab308" font-size="13" font-weight="bold">PROJECT: 4BHK LUXURY COURTYARD VILLA</text>
-    <text x="645" y="605" fill="#94a3b8" font-size="10">BUILT-UP AREA: 2,850 SQFT | SCALE: 1:50</text>
-    <text x="645" y="625" fill="#94a3b8" font-size="10">VASTU ORIENTED | EAST FACING MAIN ENTRY</text>
-    <text x="645" y="645" fill="#22c55e" font-size="10">STATUS: STRUCTURAL CAD APPROVED</text>
+    <!-- Title Block -->
+    <g transform="translate(700, 630)">
+      <rect width="365" height="115" rx="8" fill="#020617" stroke="#eab308" stroke-width="2" />
+      <text x="16" y="28" fill="#eab308" font-size="14" font-weight="bold">PROJECT: 4BHK LUXURY VILLA</text>
+      <text x="16" y="52" fill="#f8fafc" font-size="12" font-weight="600">AREA: 2,850 SQFT | CENTRAL ATRIUM</text>
+      <text x="16" y="74" fill="#94a3b8" font-size="11">VASTU EAST-FACING MAIN ENTRANCE</text>
+      <rect x="16" y="86" width="330" height="20" rx="4" fill="#052e16" stroke="#22c55e" stroke-width="1" />
+      <text x="26" y="100" fill="#4ade80" font-size="11" font-weight="bold">✓ STRUCTURAL CAD STAMP APPROVED</text>
+    </g>
+
+    <!-- Top Dimension: 52'-0" -->
+    <g transform="translate(0, 80)">
+      <line x1="140" y1="0" x2="900" y2="0" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="140" y1="-12" x2="140" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="900" y1="-12" x2="900" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <rect x="460" y="-16" width="180" height="32" rx="6" fill="#7f1d1d" stroke="#ef4444" stroke-width="2" />
+      <text x="550" y="6" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">52'-0" [15.85 m]</text>
+    </g>
 
     <!-- Outer Structural Walls -->
-    <rect x="120" y="70" width="750" height="470" fill="#030712" stroke="#eab308" stroke-width="8" />
+    <rect x="140" y="130" width="760" height="480" fill="#020617" stroke="#eab308" stroke-width="10" />
 
-    <!-- 1. Formal Living Foyer (North-East) -->
-    <rect x="120" y="70" width="280" height="220" fill="#0f172a" stroke="#eab308" stroke-width="3" />
-    <text x="175" y="160" fill="#ffffff" font-size="15" font-weight="bold">FORMAL LIVING</text>
-    <text x="180" y="182" fill="#eab308" font-size="11">16'-0" x 14'-0" (224 SQFT)</text>
-    <text x="185" y="200" fill="#94a3b8" font-size="9">Statuario Italian Marble</text>
+    <!-- 1. FORMAL LIVING (North-East) -->
+    <rect x="140" y="130" width="300" height="230" fill="#0f172a" stroke="#eab308" stroke-width="4" />
+    <g transform="translate(160, 195)">
+      <rect width="260" height="85" rx="8" fill="#020617" stroke="#eab308" stroke-width="2" />
+      <text x="130" y="28" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">FORMAL LIVING</text>
+      <text x="130" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">16'-0" x 14'-0" (224 SQFT)</text>
+      <text x="130" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Statuario Italian Marble</text>
+    </g>
 
-    <!-- 2. Central Open Courtyard / Atrium -->
-    <rect x="400" y="180" width="180" height="180" fill="#062e24" stroke="#10b981" stroke-width="3" stroke-dasharray="4,2"/>
-    <text x="430" y="260" fill="#10b981" font-size="14" font-weight="bold">OPEN ATRIUM</text>
-    <text x="435" y="280" fill="#34d399" font-size="10">Central Skylight</text>
-    <circle cx="490" cy="295" r="14" fill="#047857" stroke="#10b981" stroke-width="1.5"/>
+    <!-- 2. OPEN CENTRAL ATRIUM -->
+    <rect x="440" y="240" width="180" height="180" fill="#062e24" stroke="#10b981" stroke-width="3" stroke-dasharray="6,3" />
+    <g transform="translate(450, 290)">
+      <rect width="160" height="70" rx="8" fill="#022c22" stroke="#10b981" stroke-width="2" />
+      <text x="80" y="26" fill="#34d399" font-size="14" font-weight="bold" text-anchor="middle">OPEN ATRIUM</text>
+      <text x="80" y="48" fill="#fde047" font-size="13" font-weight="bold" text-anchor="middle">12' x 12' Skylight</text>
+    </g>
 
-    <!-- 3. Grand Master Suite 1 -->
-    <rect x="580" y="70" width="290" height="240" fill="#0f172a" stroke="#eab308" stroke-width="3" />
-    <text x="635" y="160" fill="#ffffff" font-size="15" font-weight="bold">GRAND MASTER SUITE</text>
-    <text x="645" y="182" fill="#eab308" font-size="11">18'-0" x 15'-0" (270 SQFT)</text>
-    <text x="650" y="200" fill="#94a3b8" font-size="9">Burmese Teak Hardwood</text>
-    <!-- Walk-in Wardrobe & Master Bath -->
-    <rect x="740" y="70" width="130" height="120" fill="#1e1b4b" stroke="#818cf8" stroke-width="2"/>
-    <text x="760" y="125" fill="#818cf8" font-size="10" font-weight="bold">WALK-IN &amp; SPA</text>
+    <!-- 3. GRAND MASTER SUITE -->
+    <rect x="620" y="130" width="280" height="250" fill="#0f172a" stroke="#eab308" stroke-width="4" />
+    <g transform="translate(635, 205)">
+      <rect width="250" height="85" rx="8" fill="#020617" stroke="#eab308" stroke-width="2" />
+      <text x="125" y="28" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">GRAND MASTER SUITE</text>
+      <text x="125" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">18'-0" x 15'-0" (270 SQFT)</text>
+      <text x="125" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Burmese Teak Hardwood</text>
+    </g>
 
-    <!-- 4. Bedroom 2 (Ground Floor Guest Suite) -->
-    <rect x="120" y="290" width="280" height="250" fill="#0f172a" stroke="#eab308" stroke-width="3" />
-    <text x="175" y="400" fill="#ffffff" font-size="14" font-weight="bold">GUEST SUITE 2</text>
-    <text x="180" y="420" fill="#eab308" font-size="11">15'-0" x 14'-0" (210 SQFT)</text>
+    <!-- 4. GUEST SUITE 2 -->
+    <rect x="140" y="360" width="300" height="250" fill="#0f172a" stroke="#eab308" stroke-width="4" />
+    <g transform="translate(160, 440)">
+      <rect width="260" height="80" rx="8" fill="#020617" stroke="#eab308" stroke-width="2" />
+      <text x="130" y="28" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">GUEST SUITE 2</text>
+      <text x="130" y="52" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">15'-0" x 14'-0" (210 SQFT)</text>
+      <text x="130" y="70" fill="#94a3b8" font-size="11" text-anchor="middle">Vitrified Floor</text>
+    </g>
 
-    <!-- 5. Dining & Gourmet Open Kitchen (South-East) -->
-    <rect x="580" y="310" width="290" height="230" fill="#0f172a" stroke="#eab308" stroke-width="3" />
-    <text x="645" y="390" fill="#ffffff" font-size="14" font-weight="bold">GOURMET KITCHEN</text>
-    <text x="660" y="410" fill="#eab308" font-size="11">16'-0" x 12'-0"</text>
-    <text x="655" y="428" fill="#94a3b8" font-size="9">Island Quartz Counter</text>
-    <!-- Kitchen Island -->
-    <rect x="670" y="445" width="90" height="35" rx="3" fill="#334155" stroke="#eab308" stroke-width="1.5"/>
+    <!-- 5. GOURMET KITCHEN & DINING -->
+    <rect x="620" y="380" width="280" height="230" fill="#0f172a" stroke="#eab308" stroke-width="4" />
+    <g transform="translate(635, 450)">
+      <rect width="250" height="80" rx="8" fill="#020617" stroke="#eab308" stroke-width="2" />
+      <text x="125" y="28" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">GOURMET KITCHEN</text>
+      <text x="125" y="52" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">16'-0" x 12'-0" (192 SQFT)</text>
+      <text x="125" y="70" fill="#94a3b8" font-size="11" text-anchor="middle">Island Quartz Top</text>
+    </g>
 
-    <!-- 6. Home Theater / Media Room (Central South) -->
-    <rect x="400" y="360" width="180" height="180" fill="#1e1b4b" stroke="#818cf8" stroke-width="2.5" />
-    <text x="420" y="440" fill="#c7d2fe" font-size="12" font-weight="bold">HOME THEATER</text>
-    <text x="435" y="458" fill="#818cf8" font-size="10">12' x 11' (132 SQFT)</text>
+    <!-- 6. HOME THEATER / MEDIA ROOM -->
+    <rect x="440" y="420" width="180" height="190" fill="#1e1b4b" stroke="#818cf8" stroke-width="3" />
+    <g transform="translate(450, 480)">
+      <rect width="160" height="70" rx="8" fill="#020617" stroke="#818cf8" stroke-width="2" />
+      <text x="80" y="26" fill="#c7d2fe" font-size="14" font-weight="bold" text-anchor="middle">HOME THEATER</text>
+      <text x="80" y="48" fill="#fde047" font-size="13" font-weight="bold" text-anchor="middle">12' x 11' (132 SQFT)</text>
+    </g>
 
-    <!-- Columns -->
-    <rect x="115" y="65" width="14" height="14" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="395" y="65" width="14" height="14" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="575" y="65" width="14" height="14" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="865" y="65" width="14" height="14" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="115" y="535" width="14" height="14" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="395" y="535" width="14" height="14" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="575" y="535" width="14" height="14" fill="#ef4444" stroke="#fff" stroke-width="1"/>
-    <rect x="865" y="535" width="14" height="14" fill="#ef4444" stroke="#fff" stroke-width="1"/>
+    <!-- Door D1 -->
+    <g transform="translate(140, 260)">
+      <rect x="-105" y="-10" width="100" height="26" rx="5" fill="#052e16" stroke="#22c55e" stroke-width="1.5" />
+      <text x="-55" y="8" fill="#4ade80" font-size="12" font-weight="bold" text-anchor="middle">ENTRY D1 (4'x8')</text>
+    </g>
   </svg>
   `;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
 /**
- * Procedural Commercial Corporate Office CAD Floor Plan
+ * Commercial Corporate Office CAD Floor Plan with High-Visibility Callouts
  */
 function generateCommercialOfficeCAD(): string {
   const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" style="background:#0f172a; font-family:'Courier New', monospace;">
-    <defs>
-      <pattern id="cadGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#334155" stroke-width="1"/>
-      </pattern>
-    </defs>
-    <rect width="1000" height="700" fill="url(#cadGrid)" />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" width="1100" height="780" style="background:#090d16; font-family:'Segoe UI', Arial, sans-serif;">
+    <rect width="1100" height="780" fill="#090d16" />
+    <rect x="20" y="20" width="1060" height="740" fill="none" stroke="#38bdf8" stroke-width="3" />
 
-    <!-- Border -->
-    <rect x="25" y="25" width="950" height="650" fill="none" stroke="#38bdf8" stroke-width="3" />
-    
-    <!-- Title Block Header -->
-    <rect x="630" y="560" width="335" height="105" fill="#020617" stroke="#38bdf8" stroke-width="1.5" />
-    <text x="645" y="585" fill="#38bdf8" font-size="13" font-weight="bold">PROJECT: COMMERCIAL CORPORATE SUITE</text>
-    <text x="645" y="605" fill="#94a3b8" font-size="10">FLOOR AREA: 3,500 SQFT | OCCUPANCY: 45 PAX</text>
-    <text x="645" y="625" fill="#94a3b8" font-size="10">TYPE: GRADE-A COMMERCIAL FITOUT</text>
-    <text x="645" y="645" fill="#22c55e" font-size="10">FIRE &amp; HVAC ZONING: COMPLIANT</text>
+    <!-- Title Block -->
+    <g transform="translate(700, 630)">
+      <rect width="365" height="115" rx="8" fill="#020617" stroke="#38bdf8" stroke-width="2" />
+      <text x="16" y="28" fill="#38bdf8" font-size="14" font-weight="bold">PROJECT: CORPORATE TECH SUITE</text>
+      <text x="16" y="52" fill="#f8fafc" font-size="12" font-weight="600">AREA: 3,500 SQFT | OCCUPANCY: 45 PAX</text>
+      <text x="16" y="74" fill="#94a3b8" font-size="11">GRADE-A COMMERCIAL ACOUSTIC FITOUT</text>
+      <rect x="16" y="86" width="330" height="20" rx="4" fill="#052e16" stroke="#22c55e" stroke-width="1" />
+      <text x="26" y="100" fill="#4ade80" font-size="11" font-weight="bold">✓ FIRE SPRINKLERS &amp; HVAC ZONED</text>
+    </g>
 
-    <!-- Outer Structural Walls -->
-    <rect x="100" y="70" width="790" height="470" fill="#020617" stroke="#38bdf8" stroke-width="8" />
+    <!-- Top Dimension: 55'-0" -->
+    <g transform="translate(0, 80)">
+      <line x1="120" y1="0" x2="940" y2="0" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="120" y1="-12" x2="120" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="940" y1="-12" x2="940" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <rect x="470" y="-16" width="180" height="32" rx="6" fill="#7f1d1d" stroke="#ef4444" stroke-width="2" />
+      <text x="560" y="6" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">55'-0" [16.76 m]</text>
+    </g>
 
-    <!-- 1. Reception Lobby & Waiting -->
-    <rect x="100" y="70" width="240" height="230" fill="#0f172a" stroke="#38bdf8" stroke-width="3" />
-    <text x="135" y="160" fill="#ffffff" font-size="14" font-weight="bold">RECEPTION LOBBY</text>
-    <text x="145" y="180" fill="#38bdf8" font-size="11">18' x 16' (288 SQFT)</text>
-    <rect x="130" y="200" width="100" height="25" rx="3" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <!-- Structural Outer Wall -->
+    <rect x="120" y="130" width="820" height="480" fill="#020617" stroke="#38bdf8" stroke-width="10" />
 
-    <!-- 2. Board Conference Room -->
-    <rect x="340" y="70" width="300" height="230" fill="#0f172a" stroke="#38bdf8" stroke-width="3" />
-    <text x="400" y="150" fill="#ffffff" font-size="14" font-weight="bold">BOARDROOM (16 PAX)</text>
-    <text x="420" y="170" fill="#38bdf8" font-size="11">24' x 16' (384 SQFT)</text>
-    <!-- Conference Table -->
-    <rect x="390" y="185" width="190" height="45" rx="20" fill="#334155" stroke="#38bdf8" stroke-width="2"/>
+    <!-- 1. RECEPTION & WAITING LOBBY -->
+    <rect x="120" y="130" width="260" height="230" fill="#0f172a" stroke="#38bdf8" stroke-width="4" />
+    <g transform="translate(135, 195)">
+      <rect width="230" height="85" rx="8" fill="#020617" stroke="#38bdf8" stroke-width="2" />
+      <text x="115" y="28" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">RECEPTION LOBBY</text>
+      <text x="115" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">18' x 16' (288 SQFT)</text>
+      <text x="115" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Polished Italian Granite</text>
+    </g>
 
-    <!-- 3. Executive Cabins (x3) -->
-    <rect x="640" y="70" width="250" height="115" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5" />
-    <text x="680" y="125" fill="#ffffff" font-size="12" font-weight="bold">EXECUTIVE CABIN 1</text>
-    <rect x="640" y="185" width="250" height="115" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5" />
-    <text x="680" y="240" fill="#ffffff" font-size="12" font-weight="bold">EXECUTIVE CABIN 2</text>
+    <!-- 2. BOARDROOM (16 PAX) -->
+    <rect x="380" y="130" width="310" height="230" fill="#0f172a" stroke="#38bdf8" stroke-width="4" />
+    <g transform="translate(400, 195)">
+      <rect width="270" height="85" rx="8" fill="#020617" stroke="#38bdf8" stroke-width="2" />
+      <text x="135" y="28" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">BOARDROOM (16 PAX)</text>
+      <text x="135" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">24' x 16' (384 SQFT)</text>
+      <text x="135" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Acoustic Wall Cladding</text>
+    </g>
 
-    <!-- 4. Open Workstation Bay (30 Desks) -->
-    <rect x="100" y="300" width="540" height="240" fill="#0b1329" stroke="#38bdf8" stroke-width="3" />
-    <text x="260" y="390" fill="#ffffff" font-size="15" font-weight="bold">OPEN WORKSTATION BAY (30 DESKS)</text>
-    <text x="310" y="410" fill="#38bdf8" font-size="12">40' x 20' (800 SQFT)</text>
-    <!-- Workstation Pods -->
-    <rect x="140" y="430" width="140" height="70" fill="#1e293b" stroke="#64748b" stroke-width="1"/>
-    <rect x="320" y="430" width="140" height="70" fill="#1e293b" stroke="#64748b" stroke-width="1"/>
-    <rect x="490" y="430" width="130" height="70" fill="#1e293b" stroke="#64748b" stroke-width="1"/>
+    <!-- 3. EXECUTIVE CABINS -->
+    <rect x="690" y="130" width="250" height="115" fill="#0f172a" stroke="#38bdf8" stroke-width="3" />
+    <g transform="translate(710, 155)">
+      <rect width="210" height="60" rx="6" fill="#020617" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="105" y="26" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">EXECUTIVE CABIN 1</text>
+      <text x="105" y="46" fill="#fde047" font-size="12" font-weight="bold" text-anchor="middle">12' x 12' (144 SQFT)</text>
+    </g>
+    <rect x="690" y="245" width="250" height="115" fill="#0f172a" stroke="#38bdf8" stroke-width="3" />
+    <g transform="translate(710, 270)">
+      <rect width="210" height="60" rx="6" fill="#020617" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="105" y="26" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">EXECUTIVE CABIN 2</text>
+      <text x="105" y="46" fill="#fde047" font-size="12" font-weight="bold" text-anchor="middle">12' x 12' (144 SQFT)</text>
+    </g>
 
-    <!-- 5. Server Room & Cafeteria -->
-    <rect x="640" y="300" width="250" height="120" fill="#1e1b4b" stroke="#818cf8" stroke-width="2" />
-    <text x="690" y="360" fill="#818cf8" font-size="12" font-weight="bold">SERVER / UPS ROOM</text>
-    <rect x="640" y="420" width="250" height="120" fill="#0f172a" stroke="#38bdf8" stroke-width="2" />
-    <text x="680" y="480" fill="#ffffff" font-size="12" font-weight="bold">CAFETERIA &amp; PANTRY</text>
+    <!-- 4. OPEN WORKSTATION BAY (30 DESKS) -->
+    <rect x="120" y="360" width="570" height="250" fill="#0b1329" stroke="#38bdf8" stroke-width="4" />
+    <g transform="translate(230, 440)">
+      <rect width="350" height="90" rx="8" fill="#020617" stroke="#38bdf8" stroke-width="2" />
+      <text x="175" y="30" fill="#ffffff" font-size="17" font-weight="bold" text-anchor="middle">OPEN WORKSTATION BAY</text>
+      <text x="175" y="56" fill="#fde047" font-size="16" font-weight="bold" text-anchor="middle">40'-0" x 20'-0" (800 SQFT)</text>
+      <text x="175" y="78" fill="#94a3b8" font-size="12" text-anchor="middle">30 Modular Ergonomic Pods</text>
+    </g>
+
+    <!-- 5. SERVER ROOM & CAFETERIA -->
+    <rect x="690" y="360" width="250" height="125" fill="#1e1b4b" stroke="#818cf8" stroke-width="3" />
+    <g transform="translate(710, 395)">
+      <rect width="210" height="60" rx="6" fill="#020617" stroke="#818cf8" stroke-width="1.5" />
+      <text x="105" y="26" fill="#c7d2fe" font-size="13" font-weight="bold" text-anchor="middle">SERVER / UPS ROOM</text>
+      <text x="105" y="46" fill="#fde047" font-size="12" font-weight="bold" text-anchor="middle">10' x 12' (120 SQFT)</text>
+    </g>
+
+    <rect x="690" y="485" width="250" height="125" fill="#0f172a" stroke="#38bdf8" stroke-width="3" />
+    <g transform="translate(710, 520)">
+      <rect width="210" height="60" rx="6" fill="#020617" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="105" y="26" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">PANTRY &amp; CAFETERIA</text>
+      <text x="105" y="46" fill="#fde047" font-size="12" font-weight="bold" text-anchor="middle">14' x 12' (168 SQFT)</text>
+    </g>
   </svg>
   `;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
 /**
- * Procedural 1BHK / Compact Studio CAD Layout
+ * 1BHK / Compact Studio CAD Layout with High-Visibility Callouts
  */
 function generateStudio1BHKCAD(): string {
   const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" style="background:#0f172a; font-family:'Courier New', monospace;">
-    <defs>
-      <pattern id="cadGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1"/>
-      </pattern>
-    </defs>
-    <rect width="1000" height="700" fill="url(#cadGrid)" />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" width="1100" height="780" style="background:#090d16; font-family:'Segoe UI', Arial, sans-serif;">
+    <rect width="1100" height="780" fill="#090d16" />
+    <rect x="20" y="20" width="1060" height="740" fill="none" stroke="#06b6d4" stroke-width="3" />
 
-    <!-- Border -->
-    <rect x="25" y="25" width="950" height="650" fill="none" stroke="#06b6d4" stroke-width="3" />
-    <rect x="630" y="560" width="335" height="105" fill="#020617" stroke="#06b6d4" stroke-width="1.5" />
-    <text x="645" y="585" fill="#06b6d4" font-size="13" font-weight="bold">PROJECT: 1BHK COMPACT SMART STUDIO</text>
-    <text x="645" y="605" fill="#94a3b8" font-size="10">BUILT-UP AREA: 620 SQFT | SCALE: 1:50</text>
-    <text x="645" y="625" fill="#94a3b8" font-size="10">OPTIMIZED URBAN APARTMENT</text>
-    <text x="645" y="645" fill="#22c55e" font-size="10">MODULAR STORAGE INTEGRATED</text>
+    <!-- Title Block -->
+    <g transform="translate(700, 630)">
+      <rect width="365" height="115" rx="8" fill="#020617" stroke="#06b6d4" stroke-width="2" />
+      <text x="16" y="28" fill="#06b6d4" font-size="14" font-weight="bold">PROJECT: 1BHK SMART STUDIO</text>
+      <text x="16" y="52" fill="#f8fafc" font-size="12" font-weight="600">AREA: 620 SQFT | URBAN APARTMENT</text>
+      <text x="16" y="74" fill="#94a3b8" font-size="11">OPTIMIZED INTEGRATED STORAGE</text>
+      <rect x="16" y="86" width="330" height="20" rx="4" fill="#052e16" stroke="#22c55e" stroke-width="1" />
+      <text x="26" y="100" fill="#4ade80" font-size="11" font-weight="bold">✓ MUNICIPAL RESIDENTIAL APPROVED</text>
+    </g>
 
-    <!-- Outer Structural Walls -->
-    <rect x="200" y="90" width="600" height="420" fill="#020617" stroke="#06b6d4" stroke-width="8" />
+    <!-- Top Dimension: 34'-0" -->
+    <g transform="translate(0, 80)">
+      <line x1="200" y1="0" x2="860" y2="0" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="200" y1="-12" x2="200" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="860" y1="-12" x2="860" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <rect x="440" y="-16" width="180" height="32" rx="6" fill="#7f1d1d" stroke="#ef4444" stroke-width="2" />
+      <text x="530" y="6" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">34'-0" [10.36 m]</text>
+    </g>
 
-    <!-- 1. Open Living & Dining -->
-    <rect x="200" y="90" width="340" height="240" fill="#0f172a" stroke="#06b6d4" stroke-width="3" />
-    <text x="270" y="190" fill="#ffffff" font-size="15" font-weight="bold">LIVING &amp; DINING</text>
-    <text x="280" y="210" fill="#06b6d4" font-size="12">14'-0" x 12'-0" (168 SQFT)</text>
+    <!-- Outer Structural Wall -->
+    <rect x="200" y="130" width="660" height="480" fill="#020617" stroke="#06b6d4" stroke-width="10" />
 
-    <!-- 2. Master Bedroom -->
-    <rect x="540" y="90" width="260" height="240" fill="#0f172a" stroke="#06b6d4" stroke-width="3" />
-    <text x="590" y="190" fill="#ffffff" font-size="15" font-weight="bold">BEDROOM</text>
-    <text x="590" y="210" fill="#06b6d4" font-size="12">11'-0" x 12'-0" (132 SQFT)</text>
-    <rect x="670" y="110" width="80" height="70" rx="3" fill="#1e293b" stroke="#06b6d4" stroke-width="1.2"/>
+    <!-- 1. LIVING & DINING -->
+    <rect x="200" y="130" width="360" height="270" fill="#0f172a" stroke="#06b6d4" stroke-width="4" />
+    <g transform="translate(240, 215)">
+      <rect width="280" height="85" rx="8" fill="#020617" stroke="#06b6d4" stroke-width="2" />
+      <text x="140" y="28" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">LIVING &amp; DINING</text>
+      <text x="140" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">14'-0" x 12'-0" (168 SQFT)</text>
+      <text x="140" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Glazed Vitrified Tile</text>
+    </g>
 
-    <!-- 3. Kitchenette -->
-    <rect x="200" y="330" width="200" height="180" fill="#0f172a" stroke="#06b6d4" stroke-width="3" />
-    <text x="235" y="415" fill="#ffffff" font-size="13" font-weight="bold">KITCHENETTE</text>
-    <text x="240" y="435" fill="#06b6d4" font-size="10">8' x 9' (72 SQFT)</text>
+    <!-- 2. BEDROOM -->
+    <rect x="560" y="130" width="300" height="270" fill="#0f172a" stroke="#06b6d4" stroke-width="4" />
+    <g transform="translate(585, 215)">
+      <rect width="250" height="85" rx="8" fill="#020617" stroke="#06b6d4" stroke-width="2" />
+      <text x="125" y="28" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">BEDROOM</text>
+      <text x="125" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">11'-0" x 12'-0" (132 SQFT)</text>
+      <text x="125" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Engineered Wood</text>
+    </g>
 
-    <!-- 4. Bathroom -->
-    <rect x="400" y="330" width="140" height="180" fill="#091e3a" stroke="#06b6d4" stroke-width="2.5" />
-    <text x="430" y="415" fill="#ffffff" font-size="12" font-weight="bold">BATH</text>
-    <text x="425" y="435" fill="#06b6d4" font-size="10">6' x 8' (48 SQFT)</text>
+    <!-- 3. KITCHENETTE -->
+    <rect x="200" y="400" width="210" height="210" fill="#0f172a" stroke="#06b6d4" stroke-width="4" />
+    <g transform="translate(220, 470)">
+      <rect width="170" height="75" rx="8" fill="#020617" stroke="#06b6d4" stroke-width="2" />
+      <text x="85" y="26" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">KITCHENETTE</text>
+      <text x="85" y="48" fill="#fde047" font-size="13" font-weight="bold" text-anchor="middle">8' x 9' (72 SQFT)</text>
+      <text x="85" y="66" fill="#94a3b8" font-size="11" text-anchor="middle">Granite Top</text>
+    </g>
 
-    <!-- 5. Balcony -->
-    <rect x="540" y="330" width="260" height="180" fill="#042f2e" stroke="#14b8a6" stroke-width="2.5" />
-    <text x="610" y="415" fill="#2dd4bf" font-size="13" font-weight="bold">DECK BALCONY</text>
-    <text x="615" y="435" fill="#14b8a6" font-size="10">11' x 8' (88 SQFT)</text>
+    <!-- 4. BATHROOM -->
+    <rect x="410" y="400" width="150" height="210" fill="#091e3a" stroke="#06b6d4" stroke-width="3" />
+    <g transform="translate(425, 470)">
+      <rect width="120" height="75" rx="6" fill="#020617" stroke="#06b6d4" stroke-width="1.5" />
+      <text x="60" y="26" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">BATH</text>
+      <text x="60" y="48" fill="#fde047" font-size="12" font-weight="bold" text-anchor="middle">6' x 9' (54 SQFT)</text>
+    </g>
+
+    <!-- 5. DECK BALCONY -->
+    <rect x="560" y="400" width="300" height="210" fill="#042f2e" stroke="#14b8a6" stroke-width="3" />
+    <g transform="translate(605, 470)">
+      <rect width="210" height="75" rx="8" fill="#020617" stroke="#14b8a6" stroke-width="2" />
+      <text x="105" y="26" fill="#2dd4bf" font-size="15" font-weight="bold" text-anchor="middle">DECK BALCONY</text>
+      <text x="105" y="48" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">11' x 8' (88 SQFT)</text>
+      <text x="105" y="66" fill="#94a3b8" font-size="11" text-anchor="middle">Weatherproof Deck</text>
+    </g>
   </svg>
   `;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
 /**
- * Procedural 2BHK Layout
+ * 2BHK Deluxe Layout with High-Visibility Callouts
  */
 function generate2BHKCAD(): string {
   const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" style="background:#0f172a; font-family:'Courier New', monospace;">
-    <defs>
-      <pattern id="cadGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1"/>
-      </pattern>
-    </defs>
-    <rect width="1000" height="700" fill="url(#cadGrid)" />
-    <rect x="25" y="25" width="950" height="650" fill="none" stroke="#8b5cf6" stroke-width="3" />
-    <rect x="630" y="560" width="335" height="105" fill="#020617" stroke="#8b5cf6" stroke-width="1.5" />
-    <text x="645" y="585" fill="#a78bfa" font-size="13" font-weight="bold">PROJECT: 2BHK DELUXE APARTMENT</text>
-    <text x="645" y="605" fill="#94a3b8" font-size="10">BUILT-UP AREA: 1,150 SQFT | SCALE: 1:50</text>
-    <text x="645" y="625" fill="#94a3b8" font-size="10">CROSS VENTILATION OPTIMIZED</text>
-    <text x="645" y="645" fill="#22c55e" font-size="10">STATUS: APPROVED</text>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" width="1100" height="780" style="background:#090d16; font-family:'Segoe UI', Arial, sans-serif;">
+    <rect width="1100" height="780" fill="#090d16" />
+    <rect x="20" y="20" width="1060" height="740" fill="none" stroke="#8b5cf6" stroke-width="3" />
 
-    <!-- Outer Walls -->
-    <rect x="150" y="80" width="680" height="440" fill="#020617" stroke="#8b5cf6" stroke-width="8" />
+    <!-- Title Block -->
+    <g transform="translate(700, 630)">
+      <rect width="365" height="115" rx="8" fill="#020617" stroke="#8b5cf6" stroke-width="2" />
+      <text x="16" y="28" fill="#a78bfa" font-size="14" font-weight="bold">PROJECT: 2BHK DELUXE RESIDENCE</text>
+      <text x="16" y="52" fill="#f8fafc" font-size="12" font-weight="600">AREA: 1,150 SQFT | CROSS VENTILATION</text>
+      <text x="16" y="74" fill="#94a3b8" font-size="11">OPTIMIZED 2-BEDROOM APARTMENT</text>
+      <rect x="16" y="86" width="330" height="20" rx="4" fill="#052e16" stroke="#22c55e" stroke-width="1" />
+      <text x="26" y="100" fill="#4ade80" font-size="11" font-weight="bold">✓ NBC BYLAWS COMPLIANT</text>
+    </g>
 
-    <!-- Living -->
-    <rect x="150" y="80" width="360" height="250" fill="#0f172a" stroke="#8b5cf6" stroke-width="3" />
-    <text x="250" y="190" fill="#ffffff" font-size="15" font-weight="bold">LIVING &amp; DINING</text>
-    <text x="260" y="212" fill="#a78bfa" font-size="12">16'-0" x 13'-0" (208 SQFT)</text>
+    <!-- Top Dimension: 40'-0" -->
+    <g transform="translate(0, 80)">
+      <line x1="160" y1="0" x2="880" y2="0" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="160" y1="-12" x2="160" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="880" y1="-12" x2="880" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <rect x="430" y="-16" width="180" height="32" rx="6" fill="#7f1d1d" stroke="#ef4444" stroke-width="2" />
+      <text x="520" y="6" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">40'-0" [12.19 m]</text>
+    </g>
 
-    <!-- Master Bed -->
-    <rect x="510" y="80" width="320" height="220" fill="#0f172a" stroke="#8b5cf6" stroke-width="3" />
-    <text x="590" y="170" fill="#ffffff" font-size="15" font-weight="bold">MASTER BEDROOM</text>
-    <text x="600" y="192" fill="#a78bfa" font-size="12">14'-0" x 12'-0" (168 SQFT)</text>
+    <!-- Outer Structural Wall -->
+    <rect x="160" y="130" width="720" height="480" fill="#020617" stroke="#8b5cf6" stroke-width="10" />
 
-    <!-- Bed 2 -->
-    <rect x="510" y="300" width="320" height="220" fill="#0f172a" stroke="#8b5cf6" stroke-width="3" />
-    <text x="600" y="400" fill="#ffffff" font-size="14" font-weight="bold">GUEST BEDROOM 2</text>
-    <text x="605" y="420" fill="#a78bfa" font-size="11">12'-0" x 12'-0" (144 SQFT)</text>
+    <!-- 1. LIVING & DINING -->
+    <rect x="160" y="130" width="370" height="260" fill="#0f172a" stroke="#8b5cf6" stroke-width="4" />
+    <g transform="translate(200, 210)">
+      <rect width="280" height="85" rx="8" fill="#020617" stroke="#8b5cf6" stroke-width="2" />
+      <text x="140" y="28" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">LIVING &amp; DINING</text>
+      <text x="140" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">16'-0" x 13'-0" (208 SQFT)</text>
+      <text x="140" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Double Charged Vitrified</text>
+    </g>
 
-    <!-- Kitchen -->
-    <rect x="150" y="330" width="220" height="190" fill="#0f172a" stroke="#8b5cf6" stroke-width="3" />
-    <text x="195" y="420" fill="#ffffff" font-size="14" font-weight="bold">MODULAR KITCHEN</text>
-    <text x="200" y="440" fill="#a78bfa" font-size="11">10'-0" x 11'-0"</text>
+    <!-- 2. MASTER BEDROOM -->
+    <rect x="530" y="130" width="350" height="240" fill="#0f172a" stroke="#8b5cf6" stroke-width="4" />
+    <g transform="translate(565, 200)">
+      <rect width="280" height="85" rx="8" fill="#020617" stroke="#8b5cf6" stroke-width="2" />
+      <text x="140" y="28" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">MASTER BEDROOM</text>
+      <text x="140" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">14'-0" x 12'-0" (168 SQFT)</text>
+      <text x="140" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Laminated Wood</text>
+    </g>
 
-    <!-- Common Bath -->
-    <rect x="370" y="330" width="140" height="190" fill="#091e3a" stroke="#8b5cf6" stroke-width="2.5" />
-    <text x="400" y="420" fill="#ffffff" font-size="12" font-weight="bold">BATHROOM</text>
-    <text x="405" y="440" fill="#a78bfa" font-size="10">6' x 9' (54 SQFT)</text>
+    <!-- 3. BEDROOM 2 -->
+    <rect x="530" y="370" width="350" height="240" fill="#0f172a" stroke="#8b5cf6" stroke-width="4" />
+    <g transform="translate(565, 445)">
+      <rect width="280" height="85" rx="8" fill="#020617" stroke="#8b5cf6" stroke-width="2" />
+      <text x="140" y="28" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">GUEST BEDROOM 2</text>
+      <text x="140" y="52" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">12'-0" x 12'-0" (144 SQFT)</text>
+      <text x="140" y="72" fill="#94a3b8" font-size="11" text-anchor="middle">Vitrified Floor</text>
+    </g>
+
+    <!-- 4. KITCHEN -->
+    <rect x="160" y="390" width="230" height="220" fill="#0f172a" stroke="#8b5cf6" stroke-width="4" />
+    <g transform="translate(180, 460)">
+      <rect width="190" height="80" rx="8" fill="#020617" stroke="#8b5cf6" stroke-width="2" />
+      <text x="95" y="26" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">MODULAR KITCHEN</text>
+      <text x="95" y="48" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">10'-0" x 11'-0"</text>
+      <text x="95" y="68" fill="#94a3b8" font-size="11" text-anchor="middle">Polished Granite (110 SQFT)</text>
+    </g>
+
+    <!-- 5. BATHROOM -->
+    <rect x="390" y="390" width="140" height="220" fill="#091e3a" stroke="#8b5cf6" stroke-width="3" />
+    <g transform="translate(400, 465)">
+      <rect width="120" height="70" rx="6" fill="#020617" stroke="#8b5cf6" stroke-width="1.5" />
+      <text x="60" y="26" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">BATHROOM</text>
+      <text x="60" y="48" fill="#fde047" font-size="12" font-weight="bold" text-anchor="middle">6' x 9' (54 SQFT)</text>
+    </g>
   </svg>
   `;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
 /**
- * Procedural Duplex CAD Layout
+ * Duplex CAD Layout with High-Visibility Callouts
  */
 function generateDuplexCAD(): string {
   const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" style="background:#0f172a; font-family:'Courier New', monospace;">
-    <defs>
-      <pattern id="cadGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1"/>
-      </pattern>
-    </defs>
-    <rect width="1000" height="700" fill="url(#cadGrid)" />
-    <rect x="25" y="25" width="950" height="650" fill="none" stroke="#ec4899" stroke-width="3" />
-    <rect x="630" y="560" width="335" height="105" fill="#020617" stroke="#ec4899" stroke-width="1.5" />
-    <text x="645" y="585" fill="#f472b6" font-size="13" font-weight="bold">PROJECT: LUXURY DUPLEX VILLA</text>
-    <text x="645" y="605" fill="#94a3b8" font-size="10">TOTAL AREA: 3,200 SQFT (G+1 FLOOR)</text>
-    <text x="645" y="625" fill="#94a3b8" font-size="10">DOUBLE-HEIGHT VOID &amp; STAIRWELL</text>
-    <text x="645" y="645" fill="#22c55e" font-size="10">STATUS: STRUCTURAL COMPLIANT</text>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" width="1100" height="780" style="background:#090d16; font-family:'Segoe UI', Arial, sans-serif;">
+    <rect width="1100" height="780" fill="#090d16" />
+    <rect x="20" y="20" width="1060" height="740" fill="none" stroke="#ec4899" stroke-width="3" />
 
-    <!-- Outer Walls -->
-    <rect x="130" y="70" width="730" height="470" fill="#020617" stroke="#ec4899" stroke-width="8" />
+    <!-- Title Block -->
+    <g transform="translate(700, 630)">
+      <rect width="365" height="115" rx="8" fill="#020617" stroke="#ec4899" stroke-width="2" />
+      <text x="16" y="28" fill="#f472b6" font-size="14" font-weight="bold">PROJECT: LUXURY DUPLEX VILLA</text>
+      <text x="16" y="52" fill="#f8fafc" font-size="12" font-weight="600">AREA: 3,200 SQFT (G+1 FLOOR)</text>
+      <text x="16" y="74" fill="#94a3b8" font-size="11">DOUBLE-HEIGHT GREAT ROOM VOID</text>
+      <rect x="16" y="86" width="330" height="20" rx="4" fill="#052e16" stroke="#22c55e" stroke-width="1" />
+      <text x="26" y="100" fill="#4ade80" font-size="11" font-weight="bold">✓ STRUCTURAL STAIRWELL APPROVED</text>
+    </g>
 
-    <!-- Double Height Great Room -->
-    <rect x="130" y="70" width="360" height="280" fill="#0f172a" stroke="#ec4899" stroke-width="3" />
-    <text x="210" y="180" fill="#ffffff" font-size="15" font-weight="bold">DOUBLE-HEIGHT LIVING</text>
-    <text x="230" y="202" fill="#f472b6" font-size="12">20'-0" x 16'-0" (320 SQFT)</text>
+    <!-- Top Dimension: 50'-0" -->
+    <g transform="translate(0, 80)">
+      <line x1="140" y1="0" x2="880" y2="0" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="140" y1="-12" x2="140" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <line x1="880" y1="-12" x2="880" y2="12" stroke="#ef4444" stroke-width="2.5" />
+      <rect x="420" y="-16" width="180" height="32" rx="6" fill="#7f1d1d" stroke="#ef4444" stroke-width="2" />
+      <text x="510" y="6" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">50'-0" [15.24 m]</text>
+    </g>
 
-    <!-- Grand Staircase Void -->
-    <rect x="490" y="70" width="130" height="280" fill="#1e1b4b" stroke="#a855f7" stroke-width="2.5" />
-    <text x="510" y="190" fill="#d8b4fe" font-size="12" font-weight="bold">CURVED STAIRS</text>
-    <!-- Stair Treads -->
-    <line x1="500" y1="90" x2="610" y2="90" stroke="#d8b4fe" stroke-width="1.5"/>
-    <line x1="500" y1="120" x2="610" y2="120" stroke="#d8b4fe" stroke-width="1.5"/>
-    <line x1="500" y1="150" x2="610" y2="150" stroke="#d8b4fe" stroke-width="1.5"/>
-    <line x1="500" y1="220" x2="610" y2="220" stroke="#d8b4fe" stroke-width="1.5"/>
-    <line x1="500" y1="250" x2="610" y2="250" stroke="#d8b4fe" stroke-width="1.5"/>
+    <!-- Outer Structural Wall -->
+    <rect x="140" y="130" width="740" height="480" fill="#020617" stroke="#ec4899" stroke-width="10" />
 
-    <!-- Master Suite -->
-    <rect x="620" y="70" width="240" height="280" fill="#0f172a" stroke="#ec4899" stroke-width="3" />
-    <text x="650" y="190" fill="#ffffff" font-size="14" font-weight="bold">MASTER SUITE</text>
-    <text x="660" y="210" fill="#f472b6" font-size="11">15' x 16' (240 SQFT)</text>
+    <!-- 1. DOUBLE-HEIGHT GREAT ROOM -->
+    <rect x="140" y="130" width="370" height="280" fill="#0f172a" stroke="#ec4899" stroke-width="4" />
+    <g transform="translate(170, 215)">
+      <rect width="310" height="90" rx="8" fill="#020617" stroke="#ec4899" stroke-width="2" />
+      <text x="155" y="30" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">DOUBLE-HEIGHT LIVING</text>
+      <text x="155" y="56" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">20'-0" x 16'-0" (320 SQFT)</text>
+      <text x="155" y="78" fill="#94a3b8" font-size="12" text-anchor="middle">Italian Statuario Marble</text>
+    </g>
 
-    <!-- Open Kitchen & Dining -->
-    <rect x="130" y="350" width="360" height="190" fill="#0f172a" stroke="#ec4899" stroke-width="3" />
-    <text x="220" y="440" fill="#ffffff" font-size="14" font-weight="bold">GOURMET KITCHEN &amp; DINING</text>
-    <text x="240" y="460" fill="#f472b6" font-size="11">18' x 12' (216 SQFT)</text>
+    <!-- 2. CURVED STAIRCASE VOID -->
+    <rect x="510" y="130" width="130" height="280" fill="#1e1b4b" stroke="#a855f7" stroke-width="3" />
+    <g transform="translate(520, 240)">
+      <rect width="110" height="60" rx="6" fill="#020617" stroke="#a855f7" stroke-width="1.5" />
+      <text x="55" y="26" fill="#d8b4fe" font-size="12" font-weight="bold" text-anchor="middle">STAIR VOID</text>
+      <text x="55" y="46" fill="#fde047" font-size="11" font-weight="bold" text-anchor="middle">10' x 16'</text>
+    </g>
 
-    <!-- Family Lounge & Covered Patio -->
-    <rect x="490" y="350" width="370" height="190" fill="#042f2e" stroke="#10b981" stroke-width="3" />
-    <text x="610" y="440" fill="#34d399" font-size="14" font-weight="bold">LANDSCAPED PATIO</text>
-    <text x="620" y="460" fill="#10b981" font-size="11">Deck &amp; Water Feature</text>
+    <!-- 3. MASTER SUITE -->
+    <rect x="640" y="130" width="240" height="280" fill="#0f172a" stroke="#ec4899" stroke-width="4" />
+    <g transform="translate(655, 225)">
+      <rect width="210" height="85" rx="8" fill="#020617" stroke="#ec4899" stroke-width="2" />
+      <text x="105" y="28" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">MASTER SUITE</text>
+      <text x="105" y="52" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">15' x 16' (240 SQFT)</text>
+      <text x="105" y="72" fill="#94a3b8" font-size="11" text-anchor="middle">Hardwood Laminated</text>
+    </g>
+
+    <!-- 4. GOURMET KITCHEN & DINING -->
+    <rect x="140" y="410" width="370" height="200" fill="#0f172a" stroke="#ec4899" stroke-width="4" />
+    <g transform="translate(190, 470)">
+      <rect width="270" height="80" rx="8" fill="#020617" stroke="#ec4899" stroke-width="2" />
+      <text x="135" y="26" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">KITCHEN &amp; DINING</text>
+      <text x="135" y="50" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">18'-0" x 12'-0" (216 SQFT)</text>
+      <text x="135" y="70" fill="#94a3b8" font-size="11" text-anchor="middle">Quartz Island Top</text>
+    </g>
+
+    <!-- 5. LANDSCAPED PATIO -->
+    <rect x="510" y="410" width="370" height="200" fill="#042f2e" stroke="#10b981" stroke-width="4" />
+    <g transform="translate(560, 470)">
+      <rect width="270" height="80" rx="8" fill="#020617" stroke="#10b981" stroke-width="2" />
+      <text x="135" y="26" fill="#34d399" font-size="15" font-weight="bold" text-anchor="middle">LANDSCAPED PATIO</text>
+      <text x="135" y="50" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">18'-0" x 12'-0" (216 SQFT)</text>
+      <text x="135" y="70" fill="#94a3b8" font-size="11" text-anchor="middle">Teak Wood Decking</text>
+    </g>
   </svg>
   `;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
@@ -517,39 +693,56 @@ function generateDuplexCAD(): string {
  */
 function generateClinicCAD(): string {
   const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" style="background:#0f172a; font-family:'Courier New', monospace;">
-    <rect x="25" y="25" width="950" height="650" fill="none" stroke="#22c55e" stroke-width="3" />
-    <rect x="630" y="560" width="335" height="105" fill="#020617" stroke="#22c55e" stroke-width="1.5" />
-    <text x="645" y="585" fill="#4ade80" font-size="13" font-weight="bold">PROJECT: MULTI-SPECIALTY CLINIC</text>
-    <text x="645" y="605" fill="#94a3b8" font-size="10">BUILT-UP AREA: 2,200 SQFT</text>
-    <text x="645" y="625" fill="#94a3b8" font-size="10">TRIAGE &amp; STERILE ZONE ISOLATED</text>
-    <text x="645" y="645" fill="#22c55e" font-size="10">STATUS: HEALTHCARE CODE COMPLIANT</text>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" width="1100" height="780" style="background:#090d16; font-family:'Segoe UI', Arial, sans-serif;">
+    <rect width="1100" height="780" fill="#090d16" />
+    <rect x="20" y="20" width="1060" height="740" fill="none" stroke="#22c55e" stroke-width="3" />
+    <g transform="translate(700, 630)">
+      <rect width="365" height="115" rx="8" fill="#020617" stroke="#22c55e" stroke-width="2" />
+      <text x="16" y="28" fill="#4ade80" font-size="14" font-weight="bold">PROJECT: MULTI-SPECIALTY CLINIC</text>
+      <text x="16" y="52" fill="#f8fafc" font-size="12" font-weight="600">AREA: 2,200 SQFT | STERILE ZONE</text>
+      <text x="16" y="74" fill="#94a3b8" font-size="11">TRIAGE &amp; PROCEDURE ROOM ISOLATED</text>
+      <rect x="16" y="86" width="330" height="20" rx="4" fill="#052e16" stroke="#22c55e" stroke-width="1" />
+      <text x="26" y="100" fill="#4ade80" font-size="11" font-weight="bold">✓ HEALTHCARE CODE COMPLIANT</text>
+    </g>
 
-    <rect x="120" y="70" width="750" height="470" fill="#020617" stroke="#22c55e" stroke-width="8" />
-    <!-- Waiting Lobby -->
-    <rect x="120" y="70" width="300" height="240" fill="#0f172a" stroke="#22c55e" stroke-width="3" />
-    <text x="180" y="170" fill="#ffffff" font-size="14" font-weight="bold">PATIENT WAITING LOUNGE</text>
-    <text x="210" y="190" fill="#4ade80" font-size="11">20' x 14' (280 SQFT)</text>
+    <rect x="120" y="130" width="760" height="480" fill="#020617" stroke="#22c55e" stroke-width="10" />
+    <rect x="120" y="130" width="310" height="240" fill="#0f172a" stroke="#22c55e" stroke-width="4" />
+    <g transform="translate(140, 205)">
+      <rect width="270" height="85" rx="8" fill="#020617" stroke="#22c55e" stroke-width="2" />
+      <text x="135" y="28" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">WAITING LOUNGE</text>
+      <text x="135" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">20' x 14' (280 SQFT)</text>
+      <text x="135" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Anti-bacterial Flooring</text>
+    </g>
 
-    <!-- Consultation 1 -->
-    <rect x="420" y="70" width="220" height="240" fill="#0f172a" stroke="#22c55e" stroke-width="2.5" />
-    <text x="450" y="170" fill="#ffffff" font-size="13" font-weight="bold">CONSULTATION 1</text>
-    <text x="470" y="190" fill="#4ade80" font-size="10">12' x 14' (168 SQFT)</text>
+    <rect x="430" y="130" width="220" height="240" fill="#0f172a" stroke="#22c55e" stroke-width="4" />
+    <g transform="translate(445, 205)">
+      <rect width="190" height="85" rx="8" fill="#020617" stroke="#22c55e" stroke-width="2" />
+      <text x="95" y="28" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">CONSULTATION 1</text>
+      <text x="95" y="52" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">12' x 14' (168 SQFT)</text>
+    </g>
 
-    <!-- Consultation 2 -->
-    <rect x="640" y="70" width="230" height="240" fill="#0f172a" stroke="#22c55e" stroke-width="2.5" />
-    <text x="670" y="170" fill="#ffffff" font-size="13" font-weight="bold">CONSULTATION 2</text>
-    <text x="690" y="190" fill="#4ade80" font-size="10">12' x 14' (168 SQFT)</text>
+    <rect x="650" y="130" width="230" height="240" fill="#0f172a" stroke="#22c55e" stroke-width="4" />
+    <g transform="translate(665, 205)">
+      <rect width="200" height="85" rx="8" fill="#020617" stroke="#22c55e" stroke-width="2" />
+      <text x="100" y="28" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">CONSULTATION 2</text>
+      <text x="100" y="52" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">12' x 14' (168 SQFT)</text>
+    </g>
 
-    <!-- Minor OT / Procedure Room -->
-    <rect x="120" y="310" width="380" height="230" fill="#064e3b" stroke="#10b981" stroke-width="3" />
-    <text x="220" y="415" fill="#34d399" font-size="14" font-weight="bold">STERILE PROCEDURE / OT</text>
-    <text x="245" y="435" fill="#6ee7b7" font-size="11">22' x 14' (308 SQFT)</text>
+    <rect x="120" y="370" width="390" height="240" fill="#064e3b" stroke="#10b981" stroke-width="4" />
+    <g transform="translate(170, 445)">
+      <rect width="290" height="85" rx="8" fill="#020617" stroke="#10b981" stroke-width="2" />
+      <text x="145" y="28" fill="#34d399" font-size="16" font-weight="bold" text-anchor="middle">STERILE PROCEDURE / OT</text>
+      <text x="145" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">22' x 14' (308 SQFT)</text>
+      <text x="145" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Epoxy Seamless Floor</text>
+    </g>
 
-    <!-- Pharmacy & Diagnostics -->
-    <rect x="500" y="310" width="370" height="230" fill="#0f172a" stroke="#22c55e" stroke-width="3" />
-    <text x="600" y="415" fill="#ffffff" font-size="14" font-weight="bold">PHARMACY &amp; DIAGNOSTICS</text>
-    <text x="630" y="435" fill="#4ade80" font-size="11">22' x 14' (308 SQFT)</text>
+    <rect x="510" y="370" width="370" height="240" fill="#0f172a" stroke="#22c55e" stroke-width="4" />
+    <g transform="translate(560, 445)">
+      <rect width="270" height="85" rx="8" fill="#020617" stroke="#22c55e" stroke-width="2" />
+      <text x="135" y="28" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">PHARMACY &amp; LAB</text>
+      <text x="135" y="52" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">22' x 14' (308 SQFT)</text>
+      <text x="135" y="72" fill="#94a3b8" font-size="12" text-anchor="middle">Controlled Storage</text>
+    </g>
   </svg>
   `;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
@@ -560,29 +753,42 @@ function generateClinicCAD(): string {
  */
 function generateRestaurantCAD(): string {
   const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" style="background:#0f172a; font-family:'Courier New', monospace;">
-    <rect x="25" y="25" width="950" height="650" fill="none" stroke="#f97316" stroke-width="3" />
-    <rect x="630" y="560" width="335" height="105" fill="#020617" stroke="#f97316" stroke-width="1.5" />
-    <text x="645" y="585" fill="#fb923c" font-size="13" font-weight="bold">PROJECT: GOURMET BISTRO &amp; CAFE</text>
-    <text x="645" y="605" fill="#94a3b8" font-size="10">SEATING CAPACITY: 65 COVERS</text>
-    <text x="645" y="625" fill="#94a3b8" font-size="10">COMMERCIAL KITCHEN ZONING</text>
-    <text x="645" y="645" fill="#22c55e" font-size="10">STATUS: APPROVED</text>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" width="1100" height="780" style="background:#090d16; font-family:'Segoe UI', Arial, sans-serif;">
+    <rect width="1100" height="780" fill="#090d16" />
+    <rect x="20" y="20" width="1060" height="740" fill="none" stroke="#f97316" stroke-width="3" />
+    <g transform="translate(700, 630)">
+      <rect width="365" height="115" rx="8" fill="#020617" stroke="#f97316" stroke-width="2" />
+      <text x="16" y="28" fill="#fb923c" font-size="14" font-weight="bold">PROJECT: GOURMET BISTRO</text>
+      <text x="16" y="52" fill="#f8fafc" font-size="12" font-weight="600">CAPACITY: 65 COVERS | 2,400 SQFT</text>
+      <text x="16" y="74" fill="#94a3b8" font-size="11">COMMERCIAL CHEF KITCHEN ZONED</text>
+      <rect x="16" y="86" width="330" height="20" rx="4" fill="#052e16" stroke="#22c55e" stroke-width="1" />
+      <text x="26" y="100" fill="#4ade80" font-size="11" font-weight="bold">✓ FIRE &amp; EXHAUST CERTIFIED</text>
+    </g>
 
-    <rect x="110" y="70" width="770" height="470" fill="#020617" stroke="#f97316" stroke-width="8" />
-    <!-- Dining Hall -->
-    <rect x="110" y="70" width="460" height="470" fill="#0f172a" stroke="#f97316" stroke-width="3" />
-    <text x="240" y="270" fill="#ffffff" font-size="16" font-weight="bold">MAIN DINING AREA (50 COVERS)</text>
-    <text x="280" y="295" fill="#fb923c" font-size="12">30' x 30' (900 SQFT)</text>
+    <rect x="110" y="130" width="770" height="480" fill="#020617" stroke="#f97316" stroke-width="10" />
+    <rect x="110" y="130" width="460" height="480" fill="#0f172a" stroke="#f97316" stroke-width="4" />
+    <g transform="translate(180, 310)">
+      <rect width="320" height="95" rx="8" fill="#020617" stroke="#f97316" stroke-width="2" />
+      <text x="160" y="32" fill="#ffffff" font-size="17" font-weight="bold" text-anchor="middle">MAIN DINING (50 COVERS)</text>
+      <text x="160" y="60" fill="#fde047" font-size="16" font-weight="bold" text-anchor="middle">30'-0" x 30'-0" (900 SQFT)</text>
+      <text x="160" y="82" fill="#94a3b8" font-size="12" text-anchor="middle">Rustic Hardwood Flooring</text>
+    </g>
 
-    <!-- Commercial Kitchen -->
-    <rect x="570" y="70" width="310" height="300" fill="#431407" stroke="#ea580c" stroke-width="3" />
-    <text x="640" y="210" fill="#fed7aa" font-size="14" font-weight="bold">COMMERCIAL KITCHEN</text>
-    <text x="670" y="230" fill="#fb923c" font-size="11">20' x 18' (360 SQFT)</text>
+    <rect x="570" y="130" width="310" height="310" fill="#431407" stroke="#ea580c" stroke-width="4" />
+    <g transform="translate(590, 235)">
+      <rect width="270" height="90" rx="8" fill="#020617" stroke="#ea580c" stroke-width="2" />
+      <text x="135" y="30" fill="#fed7aa" font-size="16" font-weight="bold" text-anchor="middle">COMMERCIAL KITCHEN</text>
+      <text x="135" y="56" fill="#fde047" font-size="15" font-weight="bold" text-anchor="middle">20'-0" x 18'-0" (360 SQFT)</text>
+      <text x="135" y="78" fill="#94a3b8" font-size="12" text-anchor="middle">Stainless Steel &amp; Tiled Floor</text>
+    </g>
 
-    <!-- Bar Counter & Storage -->
-    <rect x="570" y="370" width="310" height="170" fill="#0f172a" stroke="#f97316" stroke-width="3" />
-    <text x="660" y="445" fill="#ffffff" font-size="14" font-weight="bold">BAR &amp; COCKTAIL STATION</text>
-    <text x="685" y="465" fill="#fb923c" font-size="11">20' x 10' (200 SQFT)</text>
+    <rect x="570" y="440" width="310" height="170" fill="#0f172a" stroke="#f97316" stroke-width="4" />
+    <g transform="translate(605, 485)">
+      <rect width="240" height="80" rx="8" fill="#020617" stroke="#f97316" stroke-width="2" />
+      <text x="120" y="28" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">BAR &amp; COCKTAIL LOUNGE</text>
+      <text x="120" y="52" fill="#fde047" font-size="14" font-weight="bold" text-anchor="middle">20'-0" x 10'-0" (200 SQFT)</text>
+      <text x="120" y="70" fill="#94a3b8" font-size="11" text-anchor="middle">Marble Island Counter</text>
+    </g>
   </svg>
   `;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
@@ -590,7 +796,6 @@ function generateRestaurantCAD(): string {
 
 // -------------------------------------------------------------
 // Procedural 3D Photorealistic Architectural Perspective SVG/Render
-// Adapts dynamically to villa, commercial office, apartment, duplex!
 // -------------------------------------------------------------
 export const create3DPerspectiveSVG = (prompt: string = ""): string => {
   const p = prompt.toLowerCase();
@@ -605,7 +810,6 @@ export const create3DPerspectiveSVG = (prompt: string = ""): string => {
     return generateDuplex3DSVG();
   }
 
-  // Modern Residential Villa Perspective
   return generateVilla3DSVG();
 };
 
@@ -753,7 +957,7 @@ export const generateFloorPlanImage = async (prompt: string, _imageBase64?: stri
       console.warn("Falling back to local dynamic CAD floor plan generator:", e);
     }
   }
-  return create2DCADFloorPlanSVG(prompt || "1500 sqft residential 3BHK house");
+  return create2DCADFloorPlanSVG(prompt || "1650 sqft residential 3BHK house");
 };
 
 // -------------------------------------------------------------

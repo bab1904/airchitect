@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Layout from './components/Layout';
 import ProjectExplorer from './components/ProjectExplorer';
 import FloorPlanGenerator from './components/FloorPlanGenerator';
@@ -21,14 +21,53 @@ import ScheduleUpdater from './components/ScheduleUpdater';
 import { ViewState, Project, UserProfile, UserRole } from './types';
 import { authService } from './services/authService';
 
+interface NavigationHistoryItem {
+  view: ViewState;
+  project: Project | null;
+}
+
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>(ViewState.PROJECT_LIST);
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(authService.getCurrentUser());
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
+  const [history, setHistory] = useState<NavigationHistoryItem[]>([]);
+
+  // Navigate to a new view while pushing the previous state onto history stack
+  const navigateTo = useCallback((nextView: ViewState, nextProject: Project | null = currentProject) => {
+    if (nextView === currentView && nextProject?.id === currentProject?.id) return;
+    
+    setHistory(prev => [...prev, { view: currentView, project: currentProject }]);
+    setCurrentView(nextView);
+    setCurrentProject(nextProject);
+  }, [currentView, currentProject]);
+
+  // Go one step back in the navigation history
+  const handleGoBack = useCallback(() => {
+    if (history.length > 0) {
+      setHistory(prev => {
+        const newHist = [...prev];
+        const last = newHist.pop()!;
+        setCurrentView(last.view);
+        setCurrentProject(last.project);
+        return newHist;
+      });
+    } else {
+      // Fallback if history is empty:
+      // If currently inside a tool in a project, step back to Project Explorer
+      if (currentProject && currentView !== ViewState.EXPLORER) {
+        setCurrentView(ViewState.EXPLORER);
+      } else {
+        // Otherwise step back to Project List
+        setCurrentProject(null);
+        setCurrentView(ViewState.PROJECT_LIST);
+      }
+    }
+  }, [history, currentProject, currentView]);
 
   const handleRoleSelect = (role: UserRole) => {
     const user = authService.loginAsRole(role);
     setCurrentUser(user);
+    setHistory([]);
     setCurrentView(ViewState.PROJECT_LIST);
     setCurrentProject(null);
   };
@@ -37,19 +76,22 @@ const App: React.FC = () => {
     authService.logout();
     setCurrentUser(null);
     setCurrentProject(null);
+    setHistory([]);
     setCurrentView(ViewState.PROJECT_LIST);
   };
 
   const handleProjectSelect = (project: Project) => {
-    setCurrentProject(project);
-    setCurrentView(ViewState.EXPLORER);
+    navigateTo(ViewState.EXPLORER, project);
   };
 
   const handleNewToolSelect = (tool: 'floor' | 'cost' | 'schedule') => {
-    setCurrentProject(null);
-    if (tool === 'floor') setCurrentView(ViewState.FLOOR_PLAN);
-    if (tool === 'cost') setCurrentView(ViewState.COST_ESTIMATION);
-    if (tool === 'schedule') setCurrentView(ViewState.SCHEDULE_UPDATER);
+    if (tool === 'floor') navigateTo(ViewState.FLOOR_PLAN, null);
+    if (tool === 'cost') navigateTo(ViewState.COST_ESTIMATION, null);
+    if (tool === 'schedule') navigateTo(ViewState.SCHEDULE_UPDATER, null);
+  };
+
+  const handleExitToProjects = () => {
+    navigateTo(ViewState.PROJECT_LIST, null);
   };
 
   const renderView = () => {
@@ -107,8 +149,7 @@ const App: React.FC = () => {
     return <RoleSelection onSelectRole={handleRoleSelect} />;
   }
 
-  // If in Project List View, don't show the Main Sidebar Layout yet (Design choice)
-  // But we pass the userRole to display correct welcome message and logout option
+  // If in Project List View, don't show the Main Sidebar Layout yet
   if (currentView === ViewState.PROJECT_LIST) {
     return (
       <ProjectList 
@@ -123,15 +164,14 @@ const App: React.FC = () => {
   return (
     <Layout 
       currentView={currentView} 
-      onViewChange={setCurrentView} 
+      onViewChange={(view) => navigateTo(view, currentProject)} 
       userRole={currentUser.role}
       currentProject={currentProject}
       onLogout={handleLogout}
-      onSwitchProject={() => {
-        setCurrentProject(null);
-        setCurrentView(ViewState.PROJECT_LIST);
-      }}
-      onSelectProjectDirectly={handleProjectSelect}
+      onGoBack={handleGoBack}
+      canGoBack={history.length > 0 || Boolean(currentProject && currentView !== ViewState.EXPLORER)}
+      onSwitchProject={handleExitToProjects}
+      onSelectProjectDirectly={(proj) => navigateTo(ViewState.EXPLORER, proj)}
     >
       {renderView()}
       <AIAssistant userRole={currentUser.role} project={currentProject} />

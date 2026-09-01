@@ -3,7 +3,8 @@ import { ViewState, UserRole, Project } from '../types';
 import { 
   LayoutDashboard, PenTool, Calculator, HardHat, Package, Menu, LogOut, 
   MessageSquare, Users, FileText, ShieldCheck, CalendarDays, BookOpen, 
-  Zap, Activity, ChevronLeft, ChevronDown, Check, Building2, UserCheck
+  Zap, Activity, ChevronLeft, ChevronDown, Check, Building2, UserCheck, 
+  ChevronRight, ArrowLeft, Layers
 } from 'lucide-react';
 import { MOCK_PROJECTS } from '../constants';
 import TeamChatWidget from './TeamChatWidget';
@@ -14,10 +15,32 @@ interface LayoutProps {
   userRole: UserRole;
   currentProject: Project | null;
   onLogout: () => void;
+  onGoBack: () => void;
+  canGoBack?: boolean;
   onSwitchProject: () => void;
   onSelectProjectDirectly?: (project: Project) => void;
   children: React.ReactNode;
 }
+
+const VIEW_LABELS: Record<ViewState, string> = {
+  [ViewState.DASHBOARD]: 'Dashboard',
+  [ViewState.PROJECT_LIST]: 'Projects',
+  [ViewState.EXPLORER]: 'Project Explorer',
+  [ViewState.FLOOR_PLAN]: 'Floor Plan Generator',
+  [ViewState.COST_ESTIMATION]: 'Smart Cost Estimator',
+  [ViewState.SCHEDULE_UPDATER]: 'L5/L6 Schedule Sync',
+  [ViewState.SCHEDULE]: 'AI Auto-Schedule',
+  [ViewState.WORKFORCE]: 'Workforce & Wages',
+  [ViewState.MATERIALS]: 'Site Inventory & Security',
+  [ViewState.WORKLOG]: 'Daily Worklog',
+  [ViewState.BOQ_OPTIMIZER]: 'BOQ Smart Optimizer',
+  [ViewState.CONTRACTS]: 'Contracts & Tenders',
+  [ViewState.PERMITS]: 'Permits & Compliance',
+  [ViewState.CODE_COMPLIANCE]: 'Building Code Checker',
+  [ViewState.CLIENT_REQUESTS]: 'Client Requests',
+  [ViewState.TEAM_MANAGEMENT]: 'Team & Permissions',
+  [ViewState.PROJECT_PLANS]: 'Blueprints & Plans'
+};
 
 const Layout: React.FC<LayoutProps> = ({ 
   currentView, 
@@ -25,6 +48,8 @@ const Layout: React.FC<LayoutProps> = ({
   userRole, 
   currentProject, 
   onLogout,
+  onGoBack,
+  canGoBack = true,
   onSwitchProject,
   onSelectProjectDirectly,
   children 
@@ -35,7 +60,7 @@ const Layout: React.FC<LayoutProps> = ({
 
   // Define Nav items based on Role AND Context
   const getNavItems = () => {
-    // Scenario 1: No Project Selected (Tools Mode)
+    // Scenario 1: No Project Selected (Standalone AI Tools)
     if (!currentProject) {
       return [
         { id: ViewState.FLOOR_PLAN, label: 'Floor Plan Generator', icon: PenTool },
@@ -100,9 +125,10 @@ const Layout: React.FC<LayoutProps> = ({
   };
 
   const navItems = getNavItems();
+  const currentViewLabel = VIEW_LABELS[currentView] || 'Overview';
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
+    <div className="flex h-screen bg-slate-50 overflow-hidden font-sans text-slate-900">
       {/* Sidebar */}
       <aside className={`bg-slate-900 text-white transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'} flex flex-col shadow-2xl z-20 shrink-0`}>
         {/* Brand Header */}
@@ -144,19 +170,31 @@ const Layout: React.FC<LayoutProps> = ({
           )}
         </div>
 
-        {/* Back To Projects Button in Sidebar */}
-        <div className="p-3 border-b border-slate-800/80">
+        {/* Action Buttons in Sidebar: Step Back & All Projects */}
+        <div className="p-3 border-b border-slate-800/80 space-y-1.5">
+          {canGoBack && (
+            <button 
+              onClick={onGoBack}
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-indigo-300 hover:text-white bg-indigo-950/50 hover:bg-indigo-600 transition-all shadow-xs group"
+              title="Go one step back in navigation history"
+            >
+              <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+              {sidebarOpen && <span>← Step Back</span>}
+            </button>
+          )}
+
           <button 
             onClick={onSwitchProject}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white bg-slate-800/60 hover:bg-indigo-600 transition-all shadow-sm group"
+            className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+            title="Return to the Project Selection screen"
           >
-            <ChevronLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
-            {sidebarOpen && <span>← Back to All Projects</span>}
+            <Layers size={15} />
+            {sidebarOpen && <span>All Projects</span>}
           </button>
         </div>
 
         {/* Navigation Items */}
-        <nav className="flex-1 py-4 space-y-1 px-3 overflow-y-auto">
+        <nav className="flex-1 py-3 space-y-1 px-3 overflow-y-auto">
           {navItems.map(item => (
             <button
               key={item.id}
@@ -187,9 +225,9 @@ const Layout: React.FC<LayoutProps> = ({
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
-        {/* Top Header Bar with Prominent Back Button & Project Switcher */}
+        {/* Top Header Bar with Step-Back & Breadcrumbs */}
         <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 shadow-sm z-10 shrink-0">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3.5">
             <button 
               onClick={() => setSidebarOpen(!sidebarOpen)} 
               className="p-2 hover:bg-slate-100 rounded-xl text-slate-600 transition-colors"
@@ -198,25 +236,56 @@ const Layout: React.FC<LayoutProps> = ({
               <Menu size={20} />
             </button>
 
-            {/* Prominent Back to Projects Button */}
+            {/* 1. Step-Back Button: Goes ONE STEP BACK */}
             <button
-              onClick={onSwitchProject}
-              className="flex items-center gap-2 px-3.5 py-1.5 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 rounded-xl text-xs font-bold transition-all border border-slate-200 hover:border-indigo-200 shadow-sm"
-              title="Return to the project selection screen"
+              onClick={onGoBack}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 rounded-xl text-xs font-bold transition-all border border-slate-200 hover:border-indigo-200 shadow-xs active:scale-95"
+              title="Go one step back to the previous screen"
             >
               <ChevronLeft size={16} />
-              <span>Back to Projects</span>
+              <span>Back</span>
             </button>
+
+            {/* 2. Interactive Breadcrumbs Trail */}
+            <nav className="hidden sm:flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+              <button 
+                onClick={onSwitchProject}
+                className="hover:text-indigo-600 transition-colors"
+              >
+                Projects
+              </button>
+
+              {currentProject && (
+                <>
+                  <ChevronRight size={13} className="text-slate-400 shrink-0" />
+                  <button 
+                    onClick={() => onViewChange(ViewState.EXPLORER)}
+                    className="hover:text-indigo-600 transition-colors truncate max-w-[140px] font-semibold text-slate-700"
+                  >
+                    {currentProject.name}
+                  </button>
+                </>
+              )}
+
+              {currentView !== ViewState.EXPLORER && (
+                <>
+                  <ChevronRight size={13} className="text-slate-400 shrink-0" />
+                  <span className="font-bold text-slate-900 truncate">
+                    {currentViewLabel}
+                  </span>
+                </>
+              )}
+            </nav>
 
             {/* Project Switcher Dropdown */}
             {currentProject && (
-              <div className="relative">
+              <div className="relative ml-1">
                 <button
                   onClick={() => setProjectMenuOpen(!projectMenuOpen)}
                   className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-800 text-xs font-bold transition-colors"
                 >
                   <Building2 size={15} className="text-indigo-600" />
-                  <span className="max-w-[180px] truncate">{currentProject.name}</span>
+                  <span className="max-w-[160px] truncate">{currentProject.name}</span>
                   <ChevronDown size={14} className="text-slate-400" />
                 </button>
 

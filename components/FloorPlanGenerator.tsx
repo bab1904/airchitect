@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Upload, Wand2, Download, Layers, X, Eye, Sparkles, Check, Home, Building, Building2, Compass, Ruler, RefreshCw, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Upload, Wand2, Download, Layers, X, Eye, Sparkles, Check, Home, Building, Building2, Compass, Ruler, RefreshCw, ZoomIn, ZoomOut, RotateCcw, FileCode, Image as ImageIcon, ChevronDown } from 'lucide-react';
 import { generateFloorPlanImage, generate3DView } from '../services/geminiService';
 
 export interface PresetDesign {
@@ -118,6 +118,19 @@ const FloorPlanGenerator: React.FC = () => {
   const [zoomLevel, setZoomLevel] = useState<number>(100);
   const [uploadedSketch, setUploadedSketch] = useState<string | null>(null);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [downloadDropdownOpen, setDownloadDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDownloadDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Generate initial plan on mount
   useEffect(() => {
@@ -167,16 +180,76 @@ const FloorPlanGenerator: React.FC = () => {
     setUploadedSketch(null);
   };
 
-  const downloadPlan = () => {
+  // Helper to extract clean SVG text
+  const getCleanSVGText = (): string => {
+    if (!generatedImage) return '';
+    let svgText = generatedImage;
+    if (svgText.startsWith('data:image/svg+xml;utf8,')) {
+      svgText = decodeURIComponent(svgText.replace('data:image/svg+xml;utf8,', ''));
+    } else if (svgText.startsWith('data:image/svg+xml;base64,')) {
+      svgText = atob(svgText.replace('data:image/svg+xml;base64,', ''));
+    }
+    return svgText;
+  };
+
+  // 1. Download as Vector SVG
+  const downloadAsSVG = () => {
     if (!generatedImage) return;
-    const link = document.createElement('a');
-    link.href = generatedImage;
-    link.download = `AIrchitect-${mode}-${PRESET_DESIGNS[activePresetIndex].id}.svg`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    setCopySuccess(true);
-    setTimeout(() => setCopySuccess(false), 2000);
+    try {
+      const svgText = getCleanSVGText();
+      const blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `AIrchitect-${mode}-${PRESET_DESIGNS[activePresetIndex].id}.svg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+      setCopySuccess(true);
+      setDownloadDropdownOpen(false);
+      setTimeout(() => setCopySuccess(false), 2500);
+    } catch (err) {
+      console.error('Error downloading SVG:', err);
+    }
+  };
+
+  // 2. Download as High-Resolution PNG
+  const downloadAsPNG = () => {
+    if (!generatedImage) return;
+    try {
+      const svgText = getCleanSVGText();
+      const svgBlob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+      const URLObj = window.URL || window.webkitURL || window;
+      const blobURL = URLObj.createObjectURL(svgBlob);
+      const img = new Image();
+      
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 2200;
+        canvas.height = 1560;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.fillStyle = '#090d16';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          const pngUrl = canvas.toDataURL('image/png');
+          const downloadLink = document.createElement('a');
+          downloadLink.href = pngUrl;
+          downloadLink.download = `AIrchitect-${mode}-${PRESET_DESIGNS[activePresetIndex].id}.png`;
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+          URLObj.revokeObjectURL(blobURL);
+          setCopySuccess(true);
+          setDownloadDropdownOpen(false);
+          setTimeout(() => setCopySuccess(false), 2500);
+        }
+      };
+      img.src = blobURL;
+    } catch (err) {
+      console.error('Error exporting PNG:', err);
+    }
   };
 
   const handleZoomIn = () => setZoomLevel(prev => Math.min(prev + 25, 250));
@@ -203,19 +276,60 @@ const FloorPlanGenerator: React.FC = () => {
             <Wand2 className="text-indigo-600" /> AI High-Definition Floor Plan &amp; 3D Design
           </h1>
           <p className="text-sm text-slate-500">
-            High-contrast dimension strings, large-format room callouts, door/window markers, and interactive viewport zoom (75%–250%).
+            High-contrast dimension strings, large-format room callouts, door/window markers, and instant SVG/PNG export.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* Download Action with Dropdown (SVG & PNG) */}
+        <div className="flex items-center gap-3 relative" ref={dropdownRef}>
           {generatedImage && (
-            <button
-              onClick={downloadPlan}
-              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-md hover:shadow-lg transition-all"
-            >
-              {copySuccess ? <Check size={16} /> : <Download size={16} />}
-              {copySuccess ? "Saved!" : "Download Vector CAD SVG"}
-            </button>
+            <div className="relative">
+              <div className="inline-flex rounded-xl shadow-md">
+                <button
+                  onClick={downloadAsSVG}
+                  className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-l-xl text-xs font-bold transition-all"
+                  title="Download Vector CAD SVG directly"
+                >
+                  {copySuccess ? <Check size={16} /> : <Download size={16} />}
+                  <span>{copySuccess ? "Downloaded!" : "Download CAD"}</span>
+                </button>
+                <button
+                  onClick={() => setDownloadDropdownOpen(!downloadDropdownOpen)}
+                  className="bg-indigo-700 hover:bg-indigo-800 text-white px-2.5 py-2 rounded-r-xl border-l border-indigo-500 transition-colors"
+                  title="Choose format (SVG or PNG)"
+                >
+                  <ChevronDown size={14} />
+                </button>
+              </div>
+
+              {downloadDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-slate-200 py-2 z-50 animate-fade-in text-xs font-medium">
+                  <div className="px-3 py-1 text-[10px] uppercase font-bold text-slate-400 border-b border-slate-100">
+                    Export Format
+                  </div>
+                  <button
+                    onClick={downloadAsSVG}
+                    className="w-full px-4 py-2.5 text-left text-slate-700 hover:bg-indigo-50 hover:text-indigo-900 flex items-center gap-2.5 transition-colors"
+                  >
+                    <FileCode size={16} className="text-indigo-600" />
+                    <div>
+                      <p className="font-bold">Vector CAD (.SVG)</p>
+                      <p className="text-[10px] text-slate-400">Crisp scalable vector blueprint</p>
+                    </div>
+                  </button>
+                  <button
+                    onClick={downloadAsPNG}
+                    className="w-full px-4 py-2.5 text-left text-slate-700 hover:bg-indigo-50 hover:text-indigo-900 flex items-center gap-2.5 transition-colors border-t border-slate-100"
+                  >
+                    <ImageIcon size={16} className="text-purple-600" />
+                    <div>
+                      <p className="font-bold">High-Res Image (.PNG)</p>
+                      <p className="text-[10px] text-slate-400">2200x1560 Ultra-HD graphic</p>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>

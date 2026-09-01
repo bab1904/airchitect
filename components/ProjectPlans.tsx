@@ -252,9 +252,15 @@ const ProjectPlans: React.FC<ProjectPlansProps> = ({ project, userRole }) => {
                         <p className="text-xs text-slate-300">{selectedPlan.version} • {selectedPlan.category} • {selectedPlan.date}</p>
                     </div>
                     <div className="flex items-center gap-4">
-                         <button className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
-                             <Download size={16} /> Download
-                         </button>
+                         <a 
+                             href={selectedPlan.imageUrl} 
+                             download={`${selectedPlan.title.toLowerCase().replace(/\s+/g, '-')}.jpg`}
+                             target="_blank"
+                             rel="noreferrer"
+                             className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-semibold transition-colors text-white shadow-md"
+                         >
+                             <Download size={16} /> Download Blueprint
+                         </a>
                          <button 
                             onClick={() => setSelectedPlan(null)}
                             className="p-2 bg-white/10 hover:bg-red-500/80 rounded-full transition-colors"

@@ -212,6 +212,6 @@ export interface DailyLog {
   workDescription: string;
   weather: 'Sunny' | 'Rainy' | 'Cloudy' | 'Stormy';
   issues: string;
-  status: 'On Track' | 'Delayed' | 'Ahead';
+  status: 'On Track' | 'Delayed' | 'Ahead' | 'Completed';
   images?: string[];
 }

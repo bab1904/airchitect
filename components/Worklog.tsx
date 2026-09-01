@@ -18,7 +18,7 @@ const Worklog: React.FC<WorklogProps> = ({ project, userRole, userName }) => {
   const [workDescription, setWorkDescription] = useState('');
   const [issues, setIssues] = useState('');
   const [weather, setWeather] = useState<'Sunny' | 'Rainy' | 'Cloudy' | 'Stormy'>('Sunny');
-  const [status, setStatus] = useState<'On Track' | 'Delayed' | 'Ahead'>('On Track');
+  const [status, setStatus] = useState<'On Track' | 'Delayed' | 'Ahead' | 'Completed'>('On Track');
 
   const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
@@ -108,6 +108,7 @@ const Worklog: React.FC<WorklogProps> = ({ project, userRole, userName }) => {
                                     <option value="On Track">On Track</option>
                                     <option value="Ahead">Ahead</option>
                                     <option value="Delayed">Delayed</option>
+                                    <option value="Completed">Completed</option>
                                 </select>
                             </div>
                         </div>
@@ -152,7 +153,8 @@ const Worklog: React.FC<WorklogProps> = ({ project, userRole, userName }) => {
                                         <span className="mx-2 text-slate-300">|</span>
                                         <span className="text-sm text-slate-500 font-medium">{log.author} ({log.role})</span>
                                     </div>
-                                    <div className={`mt-1 sm:mt-0 text-xs px-2 py-0.5 rounded-full font-bold w-fit ${
+                                    <div className={`mt-1 sm:mt-0 text-xs px-2.5 py-0.5 rounded-full font-bold w-fit ${
+                                        log.status === 'Completed' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
                                         log.status === 'Delayed' ? 'bg-red-100 text-red-700' :
                                         log.status === 'Ahead' ? 'bg-green-100 text-green-700' :
                                         'bg-blue-100 text-blue-700'

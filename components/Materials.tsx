@@ -42,7 +42,7 @@ const Materials: React.FC<MaterialsProps> = ({ userRole, project }) => {
 
   if (!project) return <div className="p-6 text-slate-500">Please select a project first.</div>;
 
-  const isManager = userRole === UserRole.SITE_MANAGER || userRole === UserRole.PROJECT_MANAGER;
+  const isManager = userRole === UserRole.SITE_MANAGER;
   const isEngineer = userRole === UserRole.SITE_ENGINEER;
 
   // Filter vendors based on project location (Simple string match)

@@ -86,8 +86,8 @@ const Layout: React.FC<LayoutProps> = ({
       ];
     }
 
-    // Site Staff View
-    if (userRole === UserRole.SITE_MANAGER || userRole === UserRole.SITE_ENGINEER) {
+    // Site Engineer View
+    if (userRole === UserRole.SITE_ENGINEER) {
       return [
         ...baseItems,
         { id: ViewState.SCHEDULE_UPDATER, label: 'L5/L6 Schedule Sync', icon: Activity },
@@ -97,14 +97,14 @@ const Layout: React.FC<LayoutProps> = ({
         { id: ViewState.MATERIALS, label: 'Site Inventory & Security', icon: Package },
         { id: ViewState.WORKLOG, label: 'Daily Worklog', icon: FileText },
         { id: ViewState.BOQ_OPTIMIZER, label: 'BOQ Smart Optimizer', icon: Zap },
-        { id: ViewState.CONTRACTS, label: 'Contracts & Tenders', icon: FileText },
-        { id: ViewState.PERMITS, label: 'Permits & Compliance', icon: ShieldCheck },
         { id: ViewState.CODE_COMPLIANCE, label: 'Building Code Checker', icon: BookOpen },
+        { id: ViewState.FLOOR_PLAN, label: 'Floor Plan Generator', icon: PenTool },
+        { id: ViewState.COST_ESTIMATION, label: 'Smart Cost Estimator', icon: Calculator },
         { id: ViewState.CLIENT_REQUESTS, label: 'Client Requests', icon: MessageSquare },
       ];
     }
 
-    // PM View (Full Access)
+    // Site Manager View (Full Operational Access)
     return [
       ...baseItems,
       { id: ViewState.SCHEDULE_UPDATER, label: 'L5/L6 Schedule Sync', icon: Activity },

@@ -13,10 +13,6 @@ export const authService = {
         let email = 'admin@airchitect.com';
 
         switch (role) {
-            case UserRole.PROJECT_MANAGER:
-                name = 'Aditi Rao';
-                email = 'aditi.pm@airchitect.com';
-                break;
             case UserRole.SITE_MANAGER:
                 name = 'Rahul Sharma';
                 email = 'rahul.site@airchitect.com';
@@ -44,7 +40,7 @@ export const authService = {
     },
 
     login: async (email: string): Promise<UserProfile> => {
-        const user = authService.loginAsRole(UserRole.PROJECT_MANAGER);
+        const user = authService.loginAsRole(UserRole.SITE_MANAGER);
         if (email) user.email = email;
         return user;
     },

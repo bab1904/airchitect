@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { UserRole, UserProfile } from '../types';
 import { authService } from '../services/authService';
-import { Mail, Lock, User, Briefcase, HardHat, ClipboardCheck, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User, HardHat, ClipboardCheck, ArrowRight } from 'lucide-react';
 
 interface AuthProps {
   onLogin: (user: UserProfile) => void;
@@ -108,9 +108,8 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                 {!isLogin && (
                     <div>
                         <label className="block text-sm font-medium text-slate-700 mb-1">Select Role</label>
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-3 gap-2">
                              {[
-                                 { r: UserRole.PROJECT_MANAGER, label: 'Manager', icon: Briefcase },
                                  { r: UserRole.SITE_MANAGER, label: 'Supervisor', icon: HardHat },
                                  { r: UserRole.SITE_ENGINEER, label: 'Engineer', icon: ClipboardCheck },
                                  { r: UserRole.CLIENT, label: 'Client', icon: User },

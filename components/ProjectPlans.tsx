@@ -65,7 +65,7 @@ const ProjectPlans: React.FC<ProjectPlansProps> = ({ project, userRole }) => {
 
   if (!project) return <div className="p-6 text-slate-500">Please select a project to view plans.</div>;
 
-  const canUpload = userRole === UserRole.PROJECT_MANAGER || userRole === UserRole.SITE_MANAGER;
+  const canUpload = userRole === UserRole.SITE_MANAGER || userRole === UserRole.SITE_ENGINEER;
 
   const categories = ['All', 'Architectural', 'Structural', 'MEP'];
   const filteredPlans = activeCategory === 'All' 

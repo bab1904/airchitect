@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserRole } from '../types';
-import { Briefcase, HardHat, User, ClipboardCheck } from 'lucide-react';
+import { HardHat, User, ClipboardCheck } from 'lucide-react';
 
 interface RoleSelectionProps {
   onSelectRole: (role: UserRole) => void;
@@ -9,31 +9,24 @@ interface RoleSelectionProps {
 const RoleSelection: React.FC<RoleSelectionProps> = ({ onSelectRole }) => {
   const roles = [
     { 
-      id: UserRole.PROJECT_MANAGER, 
-      label: 'Project Manager', 
-      icon: Briefcase, 
-      desc: 'Oversee multiple projects, budgets, and timelines.',
-      color: 'bg-indigo-600'
-    },
-    { 
       id: UserRole.SITE_MANAGER, 
       label: 'Site Manager', 
       icon: HardHat, 
-      desc: 'Manage daily operations, workforce, and materials.',
+      desc: 'Manage daily site operations, workforce, materials, and contracts.',
       color: 'bg-orange-600'
     },
     { 
       id: UserRole.SITE_ENGINEER, 
       label: 'Site Engineer', 
       icon: ClipboardCheck, 
-      desc: 'Technical planning, compliance, and estimations.',
+      desc: 'Technical planning, blueprints, code compliance, and estimations.',
       color: 'bg-blue-600'
     },
     { 
       id: UserRole.CLIENT, 
-      label: 'Client', 
+      label: 'Client / Owner', 
       icon: User, 
-      desc: 'View progress, plans, and request changes.',
+      desc: 'Track live construction progress, schedules, and request changes.',
       color: 'bg-green-600'
     },
   ];
@@ -47,7 +40,7 @@ const RoleSelection: React.FC<RoleSelectionProps> = ({ onSelectRole }) => {
             <p className="text-slate-400 text-lg">Select your role to access the workspace</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {roles.map((role) => (
             <button
               key={role.id}

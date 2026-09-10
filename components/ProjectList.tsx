@@ -104,7 +104,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
             </p>
           </div>
           
-          {userRole === UserRole.PROJECT_MANAGER && (
+          {userRole !== UserRole.CLIENT && (
             <button 
               onClick={() => setShowWizard(true)}
               className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 shadow-lg shadow-indigo-600/30 hover:shadow-xl transition-all shrink-0"

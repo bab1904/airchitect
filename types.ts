@@ -19,7 +19,6 @@ export enum ViewState {
 }
 
 export enum UserRole {
-  PROJECT_MANAGER = 'PROJECT_MANAGER',
   SITE_MANAGER = 'SITE_MANAGER',
   SITE_ENGINEER = 'SITE_ENGINEER',
   CLIENT = 'CLIENT'

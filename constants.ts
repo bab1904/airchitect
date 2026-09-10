@@ -115,9 +115,9 @@ export const MOCK_TEAM_MESSAGES: TeamMessage[] = [
   {
     id: 'msg3',
     projectId: 'p1',
-    senderId: 'pm1',
-    senderName: 'Project Manager',
-    senderRole: UserRole.PROJECT_MANAGER,
+    senderId: 'eng1',
+    senderName: 'Amit Verma',
+    senderRole: UserRole.SITE_ENGINEER,
     text: 'Ensure safety protocols are followed during unloading.',
     timestamp: new Date(Date.now() - 80000000).toISOString()
   }

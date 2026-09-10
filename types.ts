@@ -192,6 +192,47 @@ export interface ComplianceReport {
   checks: ComplianceCheck[];
 }
 
+export interface MaterialComparisonDetail {
+  originalImage: string;
+  alternativeImage: string;
+  originalName: string;
+  alternativeName: string;
+  costComparison: {
+    originalUnitCost: string;
+    alternativeUnitCost: string;
+    totalSavings: string;
+    percentageDiff: string;
+  };
+  timeComparison: {
+    originalSpeed: string;
+    alternativeSpeed: string;
+    daysSaved: string;
+    speedFactor: string;
+  };
+  curingComparison: {
+    originalCuring: string;
+    alternativeCuring: string;
+    curingDaysSaved: string;
+  };
+  laborComparison: {
+    originalLabor: string;
+    alternativeLabor: string;
+    laborSavings: string;
+  };
+  structuralComparison: {
+    originalWeight: string;
+    alternativeWeight: string;
+    weightReduction: string;
+  };
+  keyAdvantages: string[];
+  specsComparison: Array<{
+    feature: string;
+    originalVal: string;
+    alternativeVal: string;
+    winner: 'original' | 'alternative' | 'equal';
+  }>;
+}
+
 export interface OptimizationSuggestion {
   id: string;
   category?: 'Masonry' | 'Concrete' | 'Flooring' | 'Joinery / Windows' | 'Finishing / Plaster' | 'Formwork' | 'Structural';
@@ -206,6 +247,7 @@ export interface OptimizationSuggestion {
   curingReductionDays?: number;
   reasoning: string;
   implementationStrategy: string;
+  comparisonData?: MaterialComparisonDetail;
   timeOptimizationDetails?: {
     speedBoost: string;
     curingTimeDays: number;

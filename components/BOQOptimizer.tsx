@@ -14,7 +14,12 @@ import {
   Droplet, 
   SlidersHorizontal,
   Flame,
-  Building
+  Building,
+  Eye,
+  X,
+  Scale,
+  Award,
+  CheckCircle2
 } from 'lucide-react';
 
 interface BOQOptimizerProps {
@@ -51,6 +56,52 @@ const INITIAL_SUGGESTIONS: OptimizationSuggestion[] = [
       traditionalCuringDays: 14,
       laborProductivity: '1 Mason lays 140 sqft/day (vs 45 sqft with bricks)',
       scheduleImpact: 'Cuts overall wall construction cycle by 18 days'
+    },
+    comparisonData: {
+      originalName: 'Class-1 Red Clay Kiln Bricks',
+      alternativeName: 'Grade-1 Autoclaved Aerated Concrete (AAC) Blocks',
+      originalImage: 'https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&q=80&w=800',
+      alternativeImage: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800',
+      costComparison: {
+        originalUnitCost: '₹10 / brick (₹80 for equivalent 1-block coverage)',
+        alternativeUnitCost: '₹62 / block (600x200x150mm)',
+        totalSavings: '₹36,000 Direct BOQ Savings',
+        percentageDiff: '24% Net Cost Reduction'
+      },
+      timeComparison: {
+        originalSpeed: '40 - 45 sqft / day per mason',
+        alternativeSpeed: '140 - 160 sqft / day per mason',
+        daysSaved: '18 Days Faster Project Delivery',
+        speedFactor: '3.5x Acceleration'
+      },
+      curingComparison: {
+        originalCuring: '14 to 21 Days Continuous Water Spraying',
+        alternativeCuring: '0 Days (Pre-cured Polymer Chemical Bond)',
+        curingDaysSaved: '14 Days Wet Curing Downtime Eliminated'
+      },
+      laborComparison: {
+        originalLabor: '1 Mason + 2 Helpers (Heavy mortar mixing)',
+        alternativeLabor: '1 Mason + 1 Helper (Ready dry-mix tub paste)',
+        laborSavings: '35% Reduction in Labor Man-Hours'
+      },
+      structuralComparison: {
+        originalWeight: '1,900 - 2,100 kg / m³ (Heavy Dead Load)',
+        alternativeWeight: '600 - 650 kg / m³ (68% Weight Reduction)',
+        weightReduction: 'Saves 8-12% Steel in Foundation Columns'
+      },
+      keyAdvantages: [
+        '8x larger volumetric size means 75% fewer mortar joint lines and zero thermal bridging.',
+        'High R-value thermal insulation reduces indoor cooling load by up to 25% for building lifetime.',
+        '4-hour certified fire resistance rating compared to 2 hours for standard red bricks.',
+        'Zero water curing allows plastering/finishing crews to start work immediately without 2-week delays.'
+      ],
+      specsComparison: [
+        { feature: 'Dimensional Precision', originalVal: '± 8mm (Rough, uneven)', alternativeVal: '± 1.5mm (Laser wire-cut sharp)', winner: 'alternative' },
+        { feature: 'Mortar Thickness', originalVal: '12mm - 15mm Sand-Cement', alternativeVal: '3mm Thin-bed polymer adhesive', winner: 'alternative' },
+        { feature: 'Compressive Strength', originalVal: '3.5 - 5.0 N/mm²', alternativeVal: '4.0 - 5.5 N/mm² (Uniform Grade 1)', winner: 'alternative' },
+        { feature: 'Plaster Consumption', originalVal: '20mm thick (Higher sand cost)', alternativeVal: '10mm - 12mm thin coat', winner: 'alternative' },
+        { feature: 'Environmental Green Rating', originalVal: 'Topsoil depletion & high carbon kiln', alternativeVal: 'Eco-friendly fly-ash recycled base (LEED +5)', winner: 'alternative' }
+      ]
     }
   },
   {
@@ -73,6 +124,51 @@ const INITIAL_SUGGESTIONS: OptimizationSuggestion[] = [
       traditionalCuringDays: 21,
       laborProductivity: '2 Workers install 300 sqft/day with dry jointing',
       scheduleImpact: 'Eliminates internal plastering phase entirely (saves 24 days)'
+    },
+    comparisonData: {
+      originalName: '4.5" Single Brick Partition + 2-Side Plaster',
+      alternativeName: '75mm Precast ALC Tongue & Groove Interlocking Wall Panels',
+      originalImage: 'https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?auto=format&fit=crop&q=80&w=800',
+      alternativeImage: 'https://images.unsplash.com/photo-1541888946425-d0fbb18086f6?auto=format&fit=crop&q=80&w=800',
+      costComparison: {
+        originalUnitCost: '₹45 / sqft + ₹50 / sqft Plastering',
+        alternativeUnitCost: '₹82 / sqft Complete Dry Install (No Plaster needed)',
+        totalSavings: '₹18,000 Net Savings',
+        percentageDiff: '12% Lower Installed Cost'
+      },
+      timeComparison: {
+        originalSpeed: '50 sqft / day (Masonry + 2-Side Plaster)',
+        alternativeSpeed: '300 - 350 sqft / day (Dry Joint Panel Fitting)',
+        daysSaved: '24 Days Schedule Reduction',
+        speedFactor: '5.0x Speed Advantage'
+      },
+      curingComparison: {
+        originalCuring: '21 Days Curing (Masonry + Plaster combined)',
+        alternativeCuring: '0 Days (Dry System ready for putty)',
+        curingDaysSaved: '21 Days Water Downtime Eliminated'
+      },
+      laborComparison: {
+        originalLabor: 'Mason + Plasterer + Laborers',
+        alternativeLabor: '2 Semiskilled panel fitters',
+        laborSavings: '60% Labor Crew Reduction'
+      },
+      structuralComparison: {
+        originalWeight: '180 kg / m² installed partition',
+        alternativeWeight: '55 kg / m² (70% lighter load)',
+        weightReduction: 'Dramatic reduction in floor slab deflection'
+      },
+      keyAdvantages: [
+        'Completely replaces internal sand-cement plastering phase with mirror-smooth factory face.',
+        'Precision tongue-and-groove jointing prevents hairline expansion cracks.',
+        'Immediate electrical conduit and piping chases cut cleanly in seconds.',
+        'Demountable and reconfigurable for future space changes without masonry demolition.'
+      ],
+      specsComparison: [
+        { feature: 'Construction Method', originalVal: 'Wet brick masonry + wet plaster', alternativeVal: '100% Dry interlocking precast panels', winner: 'alternative' },
+        { feature: 'Surface Finish', originalVal: 'Rough undulating plaster', alternativeVal: 'Mirror-flat direct paint/wallpaper ready', winner: 'alternative' },
+        { feature: 'Space Usability (Carpet Area)', originalVal: '135mm total finished wall thickness', alternativeVal: '75mm slim wall (+3% Carpet Area Gain)', winner: 'alternative' },
+        { feature: 'Sound Transmission (STC)', originalVal: '38 dB', alternativeVal: '42 dB (Acoustic core dampening)', winner: 'alternative' }
+      ]
     }
   },
   {
@@ -95,6 +191,51 @@ const INITIAL_SUGGESTIONS: OptimizationSuggestion[] = [
       traditionalCuringDays: 14,
       laborProductivity: 'Complete roof pour in 4 hours via boom pump',
       scheduleImpact: 'Shaves 12 days per elevated slab level'
+    },
+    comparisonData: {
+      originalName: 'Manual Site-Mixed M25 Concrete & Lift Buckets',
+      alternativeName: 'Ready-Mix Accelerated M35 High-Early Strength Concrete',
+      originalImage: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=800',
+      alternativeImage: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=800',
+      costComparison: {
+        originalUnitCost: '₹6,500 / cum (Plus aggregate wastage & mixer hire)',
+        alternativeUnitCost: '₹5,850 / cum (Contract batching rate)',
+        totalSavings: '₹32,500 Direct Material Savings',
+        percentageDiff: '10% Savings + Shuttering Rental Savings'
+      },
+      timeComparison: {
+        originalSpeed: '2 Full Days Manual Pouring per Slab',
+        alternativeSpeed: '4 Hours via High-Reach Boom Placer Pump',
+        daysSaved: '12 Days Shuttering Cycle Saved per Floor',
+        speedFactor: '2.5x Faster Turnover'
+      },
+      curingComparison: {
+        originalCuring: '14 Days Shuttering Retention',
+        alternativeCuring: '4 Days Rapid De-shuttering (70% strength @ 72h)',
+        curingDaysSaved: '10 Days Early Formwork Stripping'
+      },
+      laborComparison: {
+        originalLabor: '18 - 25 Manual Concrete Pouring Crew',
+        alternativeLabor: '4 - 6 Vibrator & Boom hose operators',
+        laborSavings: '75% Reduction in Pouring Crew'
+      },
+      structuralComparison: {
+        originalWeight: '2400 kg / m³ (Variable manual density)',
+        alternativeWeight: '2450 kg / m³ (Guaranteed compaction & strength)',
+        weightReduction: 'Zero honeycomb voids or cold joints'
+      },
+      keyAdvantages: [
+        'Achieves 70% compressive design strength within 72 hours via polycarboxylate ethers.',
+        'Formwork props stripped in 4–5 days instead of waiting 14–21 days, cutting rental fees.',
+        'Automated computerized batching guarantees exact water-cement ratio and slump consistency.',
+        'Eliminates site noise, sand storage congestion, and cement bag spillage losses.'
+      ],
+      specsComparison: [
+        { feature: 'De-shuttering Schedule', originalVal: '14 - 21 Days', alternativeVal: '4 - 5 Days', winner: 'alternative' },
+        { feature: 'Compressive Strength @ 3 Days', originalVal: '9 - 11 N/mm²', alternativeVal: '24.5 N/mm² (Early High Strength)', winner: 'alternative' },
+        { feature: 'Water-Cement Ratio Control', originalVal: 'Manual estimate (Prone to excess water)', alternativeVal: 'Automated batching ± 1% accuracy', winner: 'alternative' },
+        { feature: 'Pour Rate Capacity', originalVal: '3 - 5 cum / hour manual mixer', alternativeVal: '35 - 45 cum / hour boom pump', winner: 'alternative' }
+      ]
     }
   },
   {
@@ -117,6 +258,51 @@ const INITIAL_SUGGESTIONS: OptimizationSuggestion[] = [
       traditionalCuringDays: 10,
       laborProductivity: '450 sqft/day per applicator',
       scheduleImpact: 'Saves 14 days and allows painting work to start 2 weeks early'
+    },
+    comparisonData: {
+      originalName: '2-Coat Sand-Cement Plaster + POP Punning',
+      alternativeName: 'Single-Pass Machine Spray Gypsum Plaster',
+      originalImage: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=800',
+      alternativeImage: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800',
+      costComparison: {
+        originalUnitCost: '₹25 / sqft (Sand, cement, water, POP punning)',
+        alternativeUnitCost: '₹17 / sqft (Direct 1-coat spray material)',
+        totalSavings: '₹32,000 Net Material Savings',
+        percentageDiff: '32% Direct Cost Reduction'
+      },
+      timeComparison: {
+        originalSpeed: '80 - 100 sqft / day per plasterer',
+        alternativeSpeed: '400 - 450 sqft / day per spray applicator',
+        daysSaved: '14 Days Saved on Finishing',
+        speedFactor: '4.0x Speed Increase'
+      },
+      curingComparison: {
+        originalCuring: '7 to 10 Days Continuous Water Spraying',
+        alternativeCuring: '0 Days (Sets chemically, zero water spray)',
+        curingDaysSaved: '10 Days Water Downtime Saved'
+      },
+      laborComparison: {
+        originalLabor: 'Plasterer + Mortar Mixer + Curing labor',
+        alternativeLabor: '1 Machine Operator + 1 Leveling Finisher',
+        laborSavings: '55% Reduction in Plastering Labor'
+      },
+      structuralComparison: {
+        originalWeight: '22 kg / m² plaster dead weight',
+        alternativeWeight: '11 kg / m² (50% lighter)',
+        weightReduction: 'Reduces internal partition dead-load'
+      },
+      keyAdvantages: [
+        'Direct paint-ready mirror surface in a single application; completely eliminates POP punning.',
+        'Zero shrinkage cracks and zero thermal efflorescence compared to river sand plaster.',
+        'Naturally fire-resistant with non-combustible gypsum crystal structure.',
+        'Superior thermal insulation keeps interiors noticeably cooler in summer.'
+      ],
+      specsComparison: [
+        { feature: 'Application Coats', originalVal: '2 Coats (Rough + Fine) + POP', alternativeVal: '1 Single Coat (Paint ready)', winner: 'alternative' },
+        { feature: 'Water Curing Required', originalVal: 'Yes (10 days minimum)', alternativeVal: 'Zero water curing needed', winner: 'alternative' },
+        { feature: 'Shrinkage Crack Risk', originalVal: 'High (Clay & silt impurities in sand)', alternativeVal: 'Zero (Non-shrink formulation)', winner: 'alternative' },
+        { feature: 'Finish Whiteness', originalVal: 'Dull Grey (Requires 2 putty coats)', alternativeVal: 'Brilliant White (Direct primer ready)', winner: 'alternative' }
+      ]
     }
   },
   {
@@ -139,6 +325,51 @@ const INITIAL_SUGGESTIONS: OptimizationSuggestion[] = [
       traditionalCuringDays: 8,
       laborProductivity: 'Complete 800 sqft floor in 2 days',
       scheduleImpact: 'Walkable floor in 24 hours (saves 8 days)'
+    },
+    comparisonData: {
+      originalName: 'Imported Italian Marble (Dyna/Statuario) + Slurry Polishing',
+      alternativeName: '800x1600mm Double-Charged Glazed Vitrified Slabs (GVT)',
+      originalImage: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800',
+      alternativeImage: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=800',
+      costComparison: {
+        originalUnitCost: '₹450 / sqft (₹350 slab + ₹100 laying & polishing)',
+        alternativeUnitCost: '₹189 / sqft (₹145 slab + ₹44 rapid-set adhesive)',
+        totalSavings: '₹2,08,800 Huge Budget Savings',
+        percentageDiff: '58% Direct Cost Savings'
+      },
+      timeComparison: {
+        originalSpeed: '10 - 14 Days (Bedding, curing, 7-stage polish)',
+        alternativeSpeed: '2 Days (Precision tile leveler installation)',
+        daysSaved: '8 - 10 Days Project Duration Saved',
+        speedFactor: '2.5x Faster Turnover'
+      },
+      curingComparison: {
+        originalCuring: '7 Days Bedding Curing + 3 Days Slurry Drying',
+        alternativeCuring: '24 Hours (Walkable next morning)',
+        curingDaysSaved: '7 Days Downtime Saved'
+      },
+      laborComparison: {
+        originalLabor: 'Master Marble Layer + Polishing Gang',
+        alternativeLabor: 'Standard Tile Mason with suction cups',
+        laborSavings: '60% Labor Cost Savings'
+      },
+      structuralComparison: {
+        originalWeight: '55 kg / m² (Thick cement bed + marble)',
+        alternativeWeight: '22 kg / m² (Thin polymer bed)',
+        weightReduction: '60% lighter floor finish load'
+      },
+      keyAdvantages: [
+        '0.05% water absorption rate makes GVT tiles completely impervious to oil, wine, and acid stains.',
+        'MOHS scale hardness rating of 7 (vs 3.5 for marble) resists furniture scratches and high foot traffic.',
+        'Eliminates messy on-site diamond polishing slurry that damages painted baseboards.',
+        'High gloss nano-coating retains factory shine for decades without re-polishing.'
+      ],
+      specsComparison: [
+        { feature: 'Stain Resistance', originalVal: 'Porous (Stains easily with turmeric/lemon)', alternativeVal: '100% Stain proof & non-porous (<0.05%)', winner: 'alternative' },
+        { feature: 'Scratch Resistance', originalVal: 'MOHS 3.5 (Soft stone, scratches easily)', alternativeVal: 'MOHS 7.0 (Hardened vitrified ceramic)', winner: 'alternative' },
+        { feature: 'Installation Time', originalVal: '10 - 14 Days on site', alternativeVal: '2 Days complete', winner: 'alternative' },
+        { feature: 'Maintenance & Polish', originalVal: 'Requires re-polishing every 3-4 years', alternativeVal: 'Zero maintenance, lifetime shine', winner: 'alternative' }
+      ]
     }
   },
   {
@@ -161,6 +392,51 @@ const INITIAL_SUGGESTIONS: OptimizationSuggestion[] = [
       traditionalCuringDays: 0,
       laborProductivity: 'Install 12 windows in 1 single workday',
       scheduleImpact: 'Eliminates wood polishing and seasoning delays (saves 10 days)'
+    },
+    comparisonData: {
+      originalName: 'Hand-Carved Teak Wood Frames & Site-Fitted Glass',
+      alternativeName: 'Factory-Glazed 3-Track UPVC Sliding Windows with Bug Screen',
+      originalImage: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800',
+      alternativeImage: 'https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?auto=format&fit=crop&q=80&w=800',
+      costComparison: {
+        originalUnitCost: '₹15,000 / window (Timber, seasoning, carpentry, polish)',
+        alternativeUnitCost: '₹8,250 / window (Complete multi-chamber factory unit)',
+        totalSavings: '₹81,000 Total Joinery Savings',
+        percentageDiff: '45% Cost Reduction'
+      },
+      timeComparison: {
+        originalSpeed: '3 - 4 Days carpentry & varnishing per window',
+        alternativeSpeed: '30 Minutes drop-in fastener installation',
+        daysSaved: '10 Days Saved across project',
+        speedFactor: '3.0x Faster Turnaround'
+      },
+      curingComparison: {
+        originalCuring: 'Multiple varnish coat drying (48 hrs)',
+        alternativeCuring: '0 Drying time (Pre-finished factory vinyl)',
+        curingDaysSaved: 'Zero site drying downtime'
+      },
+      laborComparison: {
+        originalLabor: 'Master carpenter + polisher over 2 weeks',
+        alternativeLabor: '2 Installation technicians for 1 day',
+        laborSavings: '70% Labor Hours Saved'
+      },
+      structuralComparison: {
+        originalWeight: '45 kg / frame (Prone to warping in monsoon)',
+        alternativeWeight: '22 kg / frame (Galvanized steel core reinforcement)',
+        weightReduction: 'Zero seasonal expansion or jamming'
+      },
+      keyAdvantages: [
+        '100% termite proof, rot proof, and weather-resistant with multi-chamber acoustic insulation.',
+        'EPDM gasket sealing delivers up to 35 dB sound reduction from exterior street traffic.',
+        'Double-glazed argon gas glass options reduce AC heat transfer significantly.',
+        'Integrated stainless steel mosquito wire-mesh screen with smooth multi-roller glides.'
+      ],
+      specsComparison: [
+        { feature: 'Termite & Water Resistance', originalVal: 'Prone to termite attack & monsoon rotting', alternativeVal: '100% Termite, rot & corrosion immune', winner: 'alternative' },
+        { feature: 'Sound Insulation', originalVal: '18 - 22 dB (Draft gaps around wood)', alternativeVal: '32 - 36 dB (Multi-point airtight seals)', winner: 'alternative' },
+        { feature: 'Maintenance', originalVal: 'Requires periodic polishing & painting', alternativeVal: 'Zero maintenance (Simple wipe clean)', winner: 'alternative' },
+        { feature: 'Thermal U-Value', originalVal: '3.2 W/m²K', alternativeVal: '1.8 W/m²K (Energy star rated)', winner: 'alternative' }
+      ]
     }
   }
 ];
@@ -211,6 +487,9 @@ const BOQOptimizer: React.FC<BOQOptimizerProps> = ({ project }) => {
   const [loading, setLoading] = useState(false);
   const [activeFilter, setActiveFilter] = useState<'ALL' | 'TIME' | 'COST' | 'MASONRY'>('ALL');
   const [showMatrix, setShowMatrix] = useState(false);
+
+  // Comparison Pop-up Modal State
+  const [selectedForComparison, setSelectedForComparison] = useState<OptimizationSuggestion | null>(null);
 
   const calculateTotal = (items: BOQItem[]) => items.reduce((acc, item) => acc + (item.amount || 0), 0);
   const currentTotal = calculateTotal(boqItems);
@@ -286,7 +565,7 @@ const BOQOptimizer: React.FC<BOQOptimizerProps> = ({ project }) => {
             <Zap className="text-amber-500" /> AI BOQ Smart Cost &amp; Time Optimizer
           </h1>
           <p className="text-sm text-slate-500">
-            Discover advanced masonry alternatives (AAC blocks, ALC precast panels, thin-bed adhesives) and rapid-hardening materials to cut project duration and expenditure simultaneously.
+            Compare material alternatives with high-resolution visual specs, side-by-side cost &amp; speed benchmarks, and instant BOQ substitution.
           </p>
         </div>
 
@@ -333,7 +612,7 @@ const BOQOptimizer: React.FC<BOQOptimizerProps> = ({ project }) => {
           </p>
         </div>
 
-        {/* Card 3: Project Time Acceleration (New) */}
+        {/* Card 3: Project Time Acceleration */}
         <div className="bg-gradient-to-br from-indigo-600 to-violet-800 text-white p-5 rounded-2xl shadow-lg shadow-indigo-600/20">
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-bold text-indigo-100 uppercase tracking-wider">Timeline Acceleration</span>
@@ -347,7 +626,7 @@ const BOQOptimizer: React.FC<BOQOptimizerProps> = ({ project }) => {
           </p>
         </div>
 
-        {/* Card 4: Water Curing Days Eliminated (New) */}
+        {/* Card 4: Water Curing Days Eliminated */}
         <div className="bg-gradient-to-br from-sky-600 to-cyan-800 text-white p-5 rounded-2xl shadow-lg shadow-sky-600/20">
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-bold text-sky-100 uppercase tracking-wider">Curing Downtime Saved</span>
@@ -564,11 +843,16 @@ const BOQOptimizer: React.FC<BOQOptimizerProps> = ({ project }) => {
                   {/* Detailed Rationale */}
                   <p className="text-xs text-slate-600 leading-relaxed">{sug.reasoning}</p>
 
-                  {/* Strategy Footer & Action */}
+                  {/* Strategy Footer & Dual Action Buttons (Compare & Apply) */}
                   <div className="mt-3.5 pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <span className="text-[11px] text-slate-500 italic max-w-md truncate">
-                      Strategy: {sug.implementationStrategy}
-                    </span>
+                    <button
+                      onClick={() => setSelectedForComparison(sug)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 transition-colors self-start sm:self-auto"
+                    >
+                      <Eye size={14} />
+                      <span>Compare Materials &amp; View Specs</span>
+                    </button>
+
                     <button
                       onClick={() => handleApplyAlternative(sug)}
                       disabled={isApplied}
@@ -658,6 +942,256 @@ const BOQOptimizer: React.FC<BOQOptimizerProps> = ({ project }) => {
           </div>
         </div>
       </div>
+
+      {/* ========================================================= */}
+      {/* SIDE-BY-SIDE MATERIAL COMPARISON POP-UP MODAL             */}
+      {/* ========================================================= */}
+      {selectedForComparison && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-fade-in">
+          <div className="bg-white w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden border border-slate-200 my-8 max-h-[92vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="p-6 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-indigo-600/30 text-indigo-400 rounded-xl border border-indigo-500/30">
+                  <Scale size={24} />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs uppercase font-bold text-indigo-400 tracking-wider">
+                      Side-by-Side Material Comparison &amp; Engineering Specs
+                    </span>
+                    {selectedForComparison.category && (
+                      <span className="bg-indigo-950 text-indigo-300 text-[10px] px-2 py-0.5 rounded-full border border-indigo-800 font-bold">
+                        {selectedForComparison.category}
+                      </span>
+                    )}
+                  </div>
+                  <h2 className="text-xl font-bold text-white mt-0.5">
+                    {selectedForComparison.originalItem} <span className="text-slate-400">vs</span> {selectedForComparison.proposedAlternative}
+                  </h2>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setSelectedForComparison(null)}
+                className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-full transition-colors"
+                title="Close Modal"
+              >
+                <X size={22} />
+              </button>
+            </div>
+
+            {/* Modal Body (Scrollable) */}
+            <div className="p-6 overflow-y-auto space-y-6 flex-1 text-slate-900">
+              {/* Visual Side-by-Side Cards (Images + Core Value Prop) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* 1. Traditional/Original Material Card */}
+                <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden flex flex-col">
+                  <div className="relative h-48 bg-slate-200 overflow-hidden">
+                    <img 
+                      src={selectedForComparison.comparisonData?.originalImage || 'https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&q=80&w=800'} 
+                      alt="Traditional Material"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-3 left-3 bg-red-600/90 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                      Traditional Baseline Spec
+                    </div>
+                  </div>
+
+                  <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+                    <div>
+                      <h3 className="font-bold text-base text-slate-900">
+                        {selectedForComparison.comparisonData?.originalName || selectedForComparison.originalItem}
+                      </h3>
+                      <p className="text-xs text-slate-500 mt-1">Standard conventional building material and methodology</p>
+                    </div>
+
+                    <div className="space-y-2 pt-2 border-t border-slate-200 text-xs">
+                      <div className="flex justify-between py-1 border-b border-slate-200/60">
+                        <span className="text-slate-500 font-medium">Estimated Material Cost:</span>
+                        <span className="font-mono font-bold text-slate-800">
+                          {selectedForComparison.comparisonData?.costComparison.originalUnitCost || 'Baseline High Rate'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between py-1 border-b border-slate-200/60">
+                        <span className="text-slate-500 font-medium">Construction Speed:</span>
+                        <span className="font-mono font-bold text-red-600">
+                          {selectedForComparison.comparisonData?.timeComparison.originalSpeed || 'Slow Manual Labor'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between py-1 border-b border-slate-200/60">
+                        <span className="text-slate-500 font-medium">Water Curing Required:</span>
+                        <span className="font-bold text-slate-700">
+                          {selectedForComparison.comparisonData?.curingComparison.originalCuring || '14 - 21 Days Continuous'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between py-1">
+                        <span className="text-slate-500 font-medium">Structural Weight:</span>
+                        <span className="font-bold text-slate-700">
+                          {selectedForComparison.comparisonData?.structuralComparison.originalWeight || 'Heavy Dead Load'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Fast-Track Optimized Material Card */}
+                <div className="bg-indigo-50/40 rounded-2xl border-2 border-indigo-500 overflow-hidden flex flex-col shadow-lg shadow-indigo-500/10 relative">
+                  <div className="relative h-48 bg-slate-900 overflow-hidden">
+                    <img 
+                      src={selectedForComparison.comparisonData?.alternativeImage || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800'} 
+                      alt="Optimized Material"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-3 left-3 bg-emerald-600/90 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1">
+                      <Sparkles size={12} /> AI Recommended Optimization
+                    </div>
+                    <div className="absolute top-3 right-3 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                      -{selectedForComparison.savingsPercentage}% Cost | -{selectedForComparison.timeSavedDays || 14} Days
+                    </div>
+                  </div>
+
+                  <div className="p-5 flex-1 flex flex-col justify-between space-y-3 bg-white">
+                    <div>
+                      <h3 className="font-bold text-base text-indigo-950 flex items-center gap-1.5">
+                        {selectedForComparison.comparisonData?.alternativeName || selectedForComparison.proposedAlternative}
+                      </h3>
+                      <p className="text-xs text-indigo-600 font-medium mt-0.5">High-speed, cost-effective advanced technology</p>
+                    </div>
+
+                    <div className="space-y-2 pt-2 border-t border-indigo-100 text-xs">
+                      <div className="flex justify-between py-1 border-b border-indigo-50">
+                        <span className="text-slate-500 font-medium">Optimized Material Cost:</span>
+                        <span className="font-mono font-bold text-emerald-600">
+                          {selectedForComparison.comparisonData?.costComparison.alternativeUnitCost || 'Direct Discounted Rate'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between py-1 border-b border-indigo-50">
+                        <span className="text-slate-500 font-medium">Construction Speed:</span>
+                        <span className="font-mono font-bold text-indigo-700">
+                          {selectedForComparison.comparisonData?.timeComparison.alternativeSpeed || '3.5x Fast-Track'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between py-1 border-b border-indigo-50">
+                        <span className="text-slate-500 font-medium">Water Curing Required:</span>
+                        <span className="font-bold text-emerald-600">
+                          {selectedForComparison.comparisonData?.curingComparison.alternativeCuring || '0 Days (Self-Curing / Dry)'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between py-1">
+                        <span className="text-slate-500 font-medium">Structural Weight:</span>
+                        <span className="font-bold text-indigo-700">
+                          {selectedForComparison.comparisonData?.structuralComparison.alternativeWeight || '68% Weight Reduction'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Technical Specifications Side-by-Side Matrix Table */}
+              <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+                <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                  <h4 className="font-bold text-sm text-slate-800 flex items-center gap-2">
+                    <Scale size={16} className="text-indigo-600" /> Engineering Specifications Comparison Matrix
+                  </h4>
+                  <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full">
+                    {selectedForComparison.comparisonData?.costComparison.totalSavings || 'Significant Value Advantage'}
+                  </span>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs">
+                    <thead className="bg-slate-100/70 text-slate-600 font-bold uppercase tracking-wider border-b border-slate-200">
+                      <tr>
+                        <th className="p-3.5">Engineering Parameter</th>
+                        <th className="p-3.5">Traditional Specification</th>
+                        <th className="p-3.5">Optimized Alternative</th>
+                        <th className="p-3.5 text-center">Advantage</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {selectedForComparison.comparisonData?.specsComparison.map((spec, i) => (
+                        <tr key={i} className="hover:bg-slate-50 transition-colors">
+                          <td className="p-3.5 font-bold text-slate-800">{spec.feature}</td>
+                          <td className="p-3.5 text-slate-500">{spec.originalVal}</td>
+                          <td className="p-3.5 font-semibold text-indigo-900">{spec.alternativeVal}</td>
+                          <td className="p-3.5 text-center">
+                            <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                              <CheckCircle2 size={12} /> Superior
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Key Advantages & Benefits Bullet Section */}
+              <div className="bg-emerald-50/50 border border-emerald-200 rounded-2xl p-5 space-y-3">
+                <h4 className="font-bold text-sm text-emerald-950 flex items-center gap-2">
+                  <Award size={18} className="text-emerald-600" /> Why Upgrade to this Material? (Strategic Advantages)
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs text-slate-700">
+                  {selectedForComparison.comparisonData?.keyAdvantages.map((adv, i) => (
+                    <div key={i} className="flex items-start gap-2 bg-white/80 p-2.5 rounded-xl border border-emerald-100">
+                      <CheckCircle2 size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                      <span>{adv}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer (Action Buttons) */}
+            <div className="p-5 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="text-xs text-slate-500">
+                <span className="font-bold text-slate-800">Project Impact:</span> Shaves{' '}
+                <span className="text-indigo-600 font-bold">
+                  {selectedForComparison.timeSavedDays || 14} Days
+                </span>{' '}
+                off schedule &amp; saves{' '}
+                <span className="text-emerald-600 font-bold">
+                  {formatCurrency(selectedForComparison.potentialSavingsAmount)}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setSelectedForComparison(null)}
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-200 transition-colors"
+                >
+                  Close Comparison
+                </button>
+
+                <button
+                  onClick={() => {
+                    handleApplyAlternative(selectedForComparison);
+                    setSelectedForComparison(null);
+                  }}
+                  disabled={appliedIds.includes(selectedForComparison.id)}
+                  className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all shadow-md ${
+                    appliedIds.includes(selectedForComparison.id)
+                      ? 'bg-emerald-600 text-white cursor-default'
+                      : 'bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-lg'
+                  }`}
+                >
+                  {appliedIds.includes(selectedForComparison.id) ? (
+                    <>
+                      <Check size={16} /> Applied in BOQ
+                    </>
+                  ) : (
+                    <>
+                      <Zap size={16} /> Apply this Optimization to BOQ
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

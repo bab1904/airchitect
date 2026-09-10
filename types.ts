@@ -194,12 +194,25 @@ export interface ComplianceReport {
 
 export interface OptimizationSuggestion {
   id: string;
+  category?: 'Masonry' | 'Concrete' | 'Flooring' | 'Joinery / Windows' | 'Finishing / Plaster' | 'Formwork' | 'Structural';
+  optimizationType?: 'COST' | 'TIME' | 'BALANCED';
   originalItem: string;
   proposedAlternative: string;
   savingsPercentage: number;
   potentialSavingsAmount: number;
+  timeSavedDays?: number;
+  speedMultiplier?: string;
+  laborEfficiency?: string;
+  curingReductionDays?: number;
   reasoning: string;
   implementationStrategy: string;
+  timeOptimizationDetails?: {
+    speedBoost: string;
+    curingTimeDays: number;
+    traditionalCuringDays: number;
+    laborProductivity: string;
+    scheduleImpact: string;
+  };
 }
 
 export interface DailyLog {

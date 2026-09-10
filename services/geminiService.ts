@@ -1292,14 +1292,24 @@ export const runComplianceCheck = async (buildingParams: any) => {
 };
 
 // -------------------------------------------------------------
-// 9. AI BOQ Optimizer
+// 9. AI BOQ Smart Cost & Time Optimizer
 // -------------------------------------------------------------
 export const generateBOQOptimization = async (boqData: any, location: string) => {
   if (hasValidApiKey()) {
     try {
       const response = await ai.models.generateContent({
         model: "gemini-2.0-flash",
-        contents: `Optimize this BOQ for ${location}: ${JSON.stringify(boqData)}. Return array of cost-saving suggestions with savingsPercentage and potentialSavingsAmount in INR.`,
+        contents: `Analyze and optimize this BOQ for ${location}: ${JSON.stringify(boqData)}. 
+        Provide BOTH Cost Optimization and Time/Speed Optimization recommendations (especially for Masonry, Concrete, Finishes, and Partitions). 
+        Include:
+        - category ('Masonry' | 'Concrete' | 'Flooring' | 'Joinery / Windows' | 'Finishing / Plaster' | 'Formwork' | 'Structural')
+        - optimizationType ('COST' | 'TIME' | 'BALANCED')
+        - timeSavedDays (integer days saved on project timeline)
+        - speedMultiplier (e.g. "3.5x Faster Execution")
+        - laborEfficiency (e.g. "140 sqft/day vs 45 sqft/day per mason")
+        - curingReductionDays (days of water curing saved)
+        - savingsPercentage & potentialSavingsAmount in INR.
+        Return as structured JSON array.`,
         config: {
           responseMimeType: "application/json",
           responseSchema: {
@@ -1308,12 +1318,28 @@ export const generateBOQOptimization = async (boqData: any, location: string) =>
               type: Type.OBJECT,
               properties: {
                 id: { type: Type.STRING },
+                category: { type: Type.STRING },
+                optimizationType: { type: Type.STRING },
                 originalItem: { type: Type.STRING },
                 proposedAlternative: { type: Type.STRING },
                 savingsPercentage: { type: Type.NUMBER },
                 potentialSavingsAmount: { type: Type.NUMBER },
+                timeSavedDays: { type: Type.NUMBER },
+                speedMultiplier: { type: Type.STRING },
+                laborEfficiency: { type: Type.STRING },
+                curingReductionDays: { type: Type.NUMBER },
                 reasoning: { type: Type.STRING },
-                implementationStrategy: { type: Type.STRING }
+                implementationStrategy: { type: Type.STRING },
+                timeOptimizationDetails: {
+                  type: Type.OBJECT,
+                  properties: {
+                    speedBoost: { type: Type.STRING },
+                    curingTimeDays: { type: Type.NUMBER },
+                    traditionalCuringDays: { type: Type.NUMBER },
+                    laborProductivity: { type: Type.STRING },
+                    scheduleImpact: { type: Type.STRING }
+                  }
+                }
               },
               required: ["id", "originalItem", "proposedAlternative", "savingsPercentage", "potentialSavingsAmount", "reasoning", "implementationStrategy"]
             }
@@ -1329,40 +1355,136 @@ export const generateBOQOptimization = async (boqData: any, location: string) =>
 
   return [
     {
-      id: 'OPT-01',
-      originalItem: 'Red Clay Bricks (Class 1)',
-      proposedAlternative: 'Autoclaved Aerated Concrete (AAC) Blocks',
-      savingsPercentage: 22,
-      potentialSavingsAmount: 33000,
-      reasoning: 'AAC blocks require 70% less mortar, speed up wall masonry by 40%, and reduce dead load on RCC columns.',
-      implementationStrategy: 'Replace internal 4" and external 8" wall specifications with 600x200x150mm Grade-1 AAC blocks with polymer adhesive.'
+      id: 'OPT-MAS-01',
+      category: 'Masonry',
+      optimizationType: 'BALANCED',
+      originalItem: 'Red Clay Bricks (Class 1) & Sand-Cement Mortar',
+      proposedAlternative: 'Autoclaved Aerated Concrete (AAC) Blocks + Thin-Bed Jointing Adhesive',
+      savingsPercentage: 24,
+      potentialSavingsAmount: 36000,
+      timeSavedDays: 18,
+      speedMultiplier: '3.5x Faster Masonry',
+      laborEfficiency: '140 sqft/day vs 45 sqft/day per mason',
+      curingReductionDays: 14,
+      reasoning: 'AAC blocks are 8x larger than traditional bricks, requiring 75% fewer joints. Using polymer-modified thin-bed adhesive eliminates 14 days of water curing, allows immediate subsequent plastering, and reduces structural dead load by 50%.',
+      implementationStrategy: 'Replace traditional 9" and 4.5" red brick masonry with 600x200x150mm Grade-1 AAC blocks laid with 3mm polymer mortar.',
+      timeOptimizationDetails: {
+        speedBoost: '3.5x Speed Factor',
+        curingTimeDays: 0,
+        traditionalCuringDays: 14,
+        laborProductivity: '1 Mason lays 140 sqft/day (vs 45 sqft with bricks)',
+        scheduleImpact: 'Cuts overall wall construction cycle by 18 days'
+      }
     },
     {
-      id: 'OPT-02',
-      originalItem: 'Italian Marble for Living/Dining',
+      id: 'OPT-MAS-02',
+      category: 'Masonry',
+      optimizationType: 'TIME',
+      originalItem: 'Internal Brick Partition Walls (4.5" Single Brick)',
+      proposedAlternative: 'Precast Lightweight ALC / Concrete Interlocking Wall Panels',
+      savingsPercentage: 12,
+      potentialSavingsAmount: 18000,
+      timeSavedDays: 24,
+      speedMultiplier: '5.0x Faster Installation',
+      laborEfficiency: '300 sqft/day per 2-worker crew',
+      curingReductionDays: 21,
+      reasoning: 'Tongue-and-groove precast lightweight panels erect dry in minutes. Arrives pre-finished with a smooth surface, completely eliminating both internal sand-cement plastering and 21 days of water curing.',
+      implementationStrategy: 'Install 75mm fiber-reinforced autoclaved lightweight panels for internal non-loadbearing room partitions.',
+      timeOptimizationDetails: {
+        speedBoost: '5.0x Speed Factor',
+        curingTimeDays: 0,
+        traditionalCuringDays: 21,
+        laborProductivity: '2 Workers install 300 sqft/day with dry jointing',
+        scheduleImpact: 'Eliminates internal plastering phase entirely (saves 24 days)'
+      }
+    },
+    {
+      id: 'OPT-CON-01',
+      category: 'Concrete',
+      optimizationType: 'TIME',
+      originalItem: 'M25 Grade Site-Mixed Concrete (14-Day De-shuttering)',
+      proposedAlternative: 'Rapid-Hardening RMC with Accelerating Superplasticizers (M35 Grade)',
+      savingsPercentage: 10,
+      potentialSavingsAmount: 32500,
+      timeSavedDays: 12,
+      speedMultiplier: '2.5x Faster Slab Cycle',
+      laborEfficiency: 'Pour 50 cum in 4 hours vs 2 days manual mixing',
+      curingReductionDays: 7,
+      reasoning: 'High-early-strength concrete achieves 70% design strength in 72 hours using third-generation polycarboxylate ethers, reducing slab shuttering cycle time from 14 days down to 4–5 days.',
+      implementationStrategy: 'Schedule ready-mix batching with boom placer pumps for 4-day early formwork stripping.',
+      timeOptimizationDetails: {
+        speedBoost: '2.5x Formwork Turnover',
+        curingTimeDays: 4,
+        traditionalCuringDays: 14,
+        laborProductivity: 'Complete roof pour in 4 hours via boom pump',
+        scheduleImpact: 'Shaves 12 days per elevated slab level'
+      }
+    },
+    {
+      id: 'OPT-PLAS-01',
+      category: 'Finishing / Plaster',
+      optimizationType: 'BALANCED',
+      originalItem: 'Traditional 2-Coat Sand Plaster + POP Punning',
+      proposedAlternative: 'Direct One-Coat Gypsum Machine Spray Plaster',
+      savingsPercentage: 32,
+      potentialSavingsAmount: 32000,
+      timeSavedDays: 14,
+      speedMultiplier: '4.0x Faster Application',
+      laborEfficiency: '1 Plasterer finishes 450 sqft/day vs 100 sqft/day',
+      curingReductionDays: 10,
+      reasoning: 'One-coat gypsum plaster is applied directly over AAC/RCC blocks without sand preparation. Delivers direct paint-ready finish in a single pass with zero water curing and no shrinkage cracks.',
+      implementationStrategy: 'Deploy mobile spray plastering machines for continuous internal wall application.',
+      timeOptimizationDetails: {
+        speedBoost: '4.0x Speed Factor',
+        curingTimeDays: 0,
+        traditionalCuringDays: 10,
+        laborProductivity: '450 sqft/day per applicator',
+        scheduleImpact: 'Saves 14 days and allows painting work to start 2 weeks early'
+      }
+    },
+    {
+      id: 'OPT-FLR-01',
+      category: 'Flooring',
+      optimizationType: 'COST',
+      originalItem: 'Italian Marble for Living/Dining (Polishing & Wet Laying)',
       proposedAlternative: 'Glazed Vitrified Double-Charged GVT Tiles (800x1600mm)',
       savingsPercentage: 58,
       potentialSavingsAmount: 208800,
-      reasoning: 'Large-format vitrified tiles replicate Italian marble veining with zero porosity, higher scratch resistance, and zero polishing downtime.',
-      implementationStrategy: 'Procure 800x1600mm Statuario gloss vitrified tiles from local distributor.'
+      timeSavedDays: 8,
+      speedMultiplier: '2.0x Faster Tiling',
+      laborEfficiency: 'Tile laying in 2 days vs 10 days diamond polishing',
+      curingReductionDays: 0,
+      reasoning: 'Large-format vitrified slabs duplicate Italian marble aesthetics with pre-polished factory gloss, eliminating lengthy on-site multi-grit diamond polishing and slurry mess.',
+      implementationStrategy: 'Procure 800x1600mm Statuario book-match gloss vitrified tiles laid with rapid-set tile adhesive.',
+      timeOptimizationDetails: {
+        speedBoost: '2.0x Speed Factor',
+        curingTimeDays: 1,
+        traditionalCuringDays: 8,
+        laborProductivity: 'Complete 800 sqft floor in 2 days',
+        scheduleImpact: 'Walkable floor in 24 hours (saves 8 days)'
+      }
     },
     {
-      id: 'OPT-03',
-      originalItem: 'Teak Wood Frames & Shutters',
-      proposedAlternative: 'Reinforced UPVC / Thermal Break Aluminum Windows',
+      id: 'OPT-WIN-01',
+      category: 'Joinery / Windows',
+      optimizationType: 'BALANCED',
+      originalItem: 'Custom Teak Wood Frames & Site-Fabricated Shutters',
+      proposedAlternative: 'Factory-Prefabricated Multi-Chamber UPVC Sliding Systems',
       savingsPercentage: 45,
       potentialSavingsAmount: 81000,
-      reasoning: 'UPVC windows provide 100% termite proofing, superior sound insulation (35dB reduction), and zero painting maintenance.',
-      implementationStrategy: 'Standardize opening sizes to modular dimensions and order factory-glazed 3-track sliding UPVC systems.'
-    },
-    {
-      id: 'OPT-04',
-      originalItem: 'M25 Grade Site-Mixed Concrete',
-      proposedAlternative: 'Ready Mix Concrete (RMC) with GGBS / Fly Ash Blend',
-      savingsPercentage: 14,
-      potentialSavingsAmount: 45500,
-      reasoning: 'RMC guarantees consistent water-cement ratio, eliminates on-site aggregate wastage, and reduces slab pour labor from 2 days to 5 hours.',
-      implementationStrategy: 'Contract approved local RMC batching plant with boom pump delivery for roof slab.'
+      timeSavedDays: 10,
+      speedMultiplier: '3.0x Faster Installation',
+      laborEfficiency: 'Drop-in anchor fastening in 30 mins per window',
+      curingReductionDays: 0,
+      reasoning: 'Factory-glazed UPVC window units arrive finished with hardware and weather-stripping. Installs into masonry rough openings in 30 minutes with expansion foam vs weeks of carpentry and painting.',
+      implementationStrategy: 'Standardize architectural rough openings to modular dimensions for 1-day site drop-in installation.',
+      timeOptimizationDetails: {
+        speedBoost: '3.0x Installation Speed',
+        curingTimeDays: 0,
+        traditionalCuringDays: 0,
+        laborProductivity: 'Install 12 windows in 1 single workday',
+        scheduleImpact: 'Eliminates wood polishing and seasoning delays (saves 10 days)'
+      }
     }
   ];
 };

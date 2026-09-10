@@ -69,13 +69,55 @@ export const MOCK_WORKERS: Worker[] = [
 ];
 
 export const MOCK_DAILY_ATTENDANCE: DailyAttendance[] = [
-    { date: 'Oct 20', Mason: 4, Carpenter: 2, Electrician: 1, Plumber: 1, Helper: 6, totalWorkers: 14 },
-    { date: 'Oct 21', Mason: 4, Carpenter: 3, Electrician: 2, Plumber: 1, Helper: 7, totalWorkers: 17 },
-    { date: 'Oct 22', Mason: 5, Carpenter: 3, Electrician: 2, Plumber: 2, Helper: 8, totalWorkers: 20 },
-    { date: 'Oct 23', Mason: 5, Carpenter: 4, Electrician: 1, Plumber: 2, Helper: 8, totalWorkers: 20 },
-    { date: 'Oct 24', Mason: 3, Carpenter: 2, Electrician: 1, Plumber: 1, Helper: 5, totalWorkers: 12 },
-    { date: 'Oct 25', Mason: 6, Carpenter: 4, Electrician: 2, Plumber: 2, Helper: 10, totalWorkers: 24 },
-    { date: 'Oct 26', Mason: 6, Carpenter: 4, Electrician: 3, Plumber: 2, Helper: 10, totalWorkers: 25 },
+    { 
+      date: 'Oct 20', 
+      Mason: 4, Carpenter: 2, Electrician: 1, Plumber: 1, Helper: 6, totalWorkers: 14,
+      wages: { Mason: 850, Carpenter: 900, Electrician: 1000, Plumber: 950, Helper: 500 },
+      totalPayout: 10150,
+      notes: 'Standard Shift'
+    },
+    { 
+      date: 'Oct 21', 
+      Mason: 4, Carpenter: 3, Electrician: 2, Plumber: 1, Helper: 7, totalWorkers: 17,
+      wages: { Mason: 850, Carpenter: 900, Electrician: 1000, Plumber: 950, Helper: 500 },
+      totalPayout: 12550,
+      notes: 'Foundation Column Rebar Tying'
+    },
+    { 
+      date: 'Oct 22', 
+      Mason: 5, Carpenter: 3, Electrician: 2, Plumber: 2, Helper: 8, totalWorkers: 20,
+      wages: { Mason: 850, Carpenter: 900, Electrician: 1000, Plumber: 950, Helper: 500 },
+      totalPayout: 14850,
+      notes: 'Slab Shuttering Prep'
+    },
+    { 
+      date: 'Oct 23', 
+      Mason: 5, Carpenter: 4, Electrician: 1, Plumber: 2, Helper: 8, totalWorkers: 20,
+      wages: { Mason: 900, Carpenter: 950, Electrician: 1050, Plumber: 950, Helper: 550 },
+      totalPayout: 15750,
+      notes: 'Overtime 1h included for slab team'
+    },
+    { 
+      date: 'Oct 24', 
+      Mason: 3, Carpenter: 2, Electrician: 1, Plumber: 1, Helper: 5, totalWorkers: 12,
+      wages: { Mason: 850, Carpenter: 900, Electrician: 1000, Plumber: 950, Helper: 500 },
+      totalPayout: 8800,
+      notes: 'Rain Delay Afternoon'
+    },
+    { 
+      date: 'Oct 25', 
+      Mason: 6, Carpenter: 4, Electrician: 2, Plumber: 2, Helper: 10, totalWorkers: 24,
+      wages: { Mason: 850, Carpenter: 900, Electrician: 1000, Plumber: 950, Helper: 500 },
+      totalPayout: 17600,
+      notes: 'Full Slab Concreting Day'
+    },
+    { 
+      date: 'Oct 26', 
+      Mason: 6, Carpenter: 4, Electrician: 3, Plumber: 2, Helper: 10, totalWorkers: 25,
+      wages: { Mason: 850, Carpenter: 900, Electrician: 1000, Plumber: 950, Helper: 500 },
+      totalPayout: 18600,
+      notes: 'AAC Block Masonry Commenced'
+    }
 ];
 
 export const MOCK_MATERIALS: Material[] = [

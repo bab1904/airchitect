@@ -78,6 +78,17 @@ export interface DailyAttendance {
   Plumber: number;
   Helper: number;
   totalWorkers: number;
+  wages?: {
+    Mason: number;
+    Carpenter: number;
+    Electrician: number;
+    Plumber: number;
+    Helper: number;
+  };
+  totalPayout?: number;
+  notes?: string;
+  loggedByRole?: UserRole;
+  loggedByName?: string;
 }
 
 export interface Material {

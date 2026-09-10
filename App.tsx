@@ -110,7 +110,7 @@ const App: React.FC = () => {
       case ViewState.EXPLORER:
         return currentProject ? <ProjectExplorer project={currentProject} userRole={currentUser!.role} /> : null;
       case ViewState.WORKFORCE:
-        return <Workforce />;
+        return <Workforce userRole={currentUser!.role} userName={currentUser!.name} project={currentProject} />;
       case ViewState.MATERIALS:
         return <Materials userRole={currentUser!.role} project={currentProject} />;
       case ViewState.CLIENT_REQUESTS:
